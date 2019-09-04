@@ -82,7 +82,7 @@
                 </tr>
                 <tr>
                   <td>IVA</td>
-                  <td> ${{paquetesTotales.iva}}</td>
+                  <td> ${{paquetesTotales.iva | moneda}}</td>
                 </tr>
                 <tr>
                   <td>Total</td>
@@ -126,7 +126,7 @@
                 <td>{{item.marca}} {{item.nombre}} {{item.kilos}}Kg</td>
                 <td>{{item.cantidad}}</td>
                 <td>${{item.costoUnitario}}</td>
-                <td>${{item.importe}}</td>
+                <td>${{item.importe | moneda}}</td>
                 <td>${{item.total}}</td>
               </tr>
             </table>
@@ -151,7 +151,7 @@
                 </tr>
                 <tr>
                   <td>IVA</td>
-                  <td> ${{productosTotales.iva | moneda}}</td>
+                  <td> ${{productosTotales.iva }}</td>
                 </tr>
                 <tr>
                   <td>Total</td>

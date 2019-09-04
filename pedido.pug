@@ -84,7 +84,7 @@ html(lang="en")
                   td  ${{paquetesTotales.subCDescuento}}
                 tr
                   td IVA
-                  td  ${{paquetesTotales.iva}}
+                  td  ${{paquetesTotales.iva | moneda}}
                 tr
                   td Total
                   td  ${{paquetesTotales.total | moneda}}
@@ -143,7 +143,7 @@ html(lang="en")
                 td {{item.marca}} {{item.nombre}} {{item.kilos}}Kg
                 td {{item.cantidad}}
                 td ${{item.costoUnitario}}
-                td ${{item.importe}}
+                td ${{item.importe | moneda}}
                 td ${{item.total}}
           .row.tablePedido
             .firma(style="")
@@ -161,7 +161,7 @@ html(lang="en")
                   td  ${{productosTotales.subCDescuento}}
                 tr
                   td IVA
-                  td  ${{productosTotales.iva | moneda}}
+                  td  ${{productosTotales.iva }}
                 tr
                   td Total
                   td  ${{productosTotales.total | moneda}}
