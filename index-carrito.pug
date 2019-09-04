@@ -83,50 +83,93 @@ html(lang="en")
         br
         //- ----------------- Stock Paquetes
         .row.wrap_paquete#accordionExample()
-            .col.m4.s12(style='text-align:center;' v-for="(item, index) in paquetes")
-              .card
-                img.card-img-top(style="width:100%;" v-bind:src="'images/paquete'+item.id+'.png'", alt='Card image cap')
-                .card-body
-                  .row.card-title(style="margin:0px;")
-                    .col.m8
-                      h1 {{item.name}} 
-                    .col.m4(style="text-align:left;")
-                      p(style="text-decoration: line-through;") ${{item.precio }} 
-                      p() ${{item.precioDescuento }}
-                  p.wrap_count
-                    button(v-on:click.prevent="decrementInput(index, 'paquete')")
-                      i(class="fa fa-minus-circle")
-                    input(type="number" v-model="inputPaquete[index].input" )
-                    button(v-on:click.prevent="incrementInput(index, 'paquete')")
-                      i(class="fa fa-plus-circle")
-                  p
-                    button.btn.btnAddCar(v-if="inputPaquete[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')") Agregar al pedido
-                  
-                  .col.m12
-                    table
-                      colgroup
-                        col
-                        col(span='2' style="text-align:right;")
-                      tr
-                        td.td_presentacion Presentación
-                        td.td_kilos Kilos
-                        td.td_sacos Sacos
-                      tr(v-for="(producto, contador) in item.products", v-if="contador <= 3")
-                        td {{producto.marca}} {{producto.nombre}}
-                        td.center {{producto.kilos}}
-                        td.center {{producto.cantidad}}
+          .col.m4.s12(style='text-align:center;' v-for="(item, index) in paquetes")
+            .card
+              img.card-img-top(style="width:100%;" v-bind:src="'images/paquete'+item.id+'.png'", alt='Card image cap')
+              .card-body
+                .row.card-title(style="margin:0px;")
+                  .col.m8
+                    h1 {{item.name}} 
+                  .col.m4(style="text-align:left;")
+                    p(style="text-decoration: line-through;") ${{item.precio }} 
+                    p() ${{item.precioDescuento }}
+                p.wrap_count
+                  button(v-on:click.prevent="decrementInput(index, 'paquete')")
+                    i(class="fa fa-minus-circle")
+                  input(type="number" v-model="inputPaquete[index].input" )
+                  button(v-on:click.prevent="incrementInput(index, 'paquete')")
+                    i(class="fa fa-plus-circle")
+                p
+                  button.btn.btnAddCar(v-if="inputPaquete[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')") Agregar al pedido
+                
+                .col.m12
+                  table
+                    colgroup
+                      col
+                      col(span='2' style="text-align:right;")
+                    tr
+                      td.td_presentacion Presentación
+                      td.td_kilos Kilos
+                      td.td_sacos Sacos
+                    tr(v-for="(producto, contador) in item.products", v-if="contador <= 3")
+                      td {{producto.marca}} {{producto.nombre}}
+                      td.center {{producto.kilos}}
+                      td.center {{producto.cantidad}}
+                    
+                  ul.collapsible
+                    li
+                      .collapsible-body
+                        table
+                          tr(v-for="(producto, contador) in item.products", v-if="contador > 3")
+                            td.td_presentacion {{producto.marca}} {{producto.nombre}}
+                            td.td_kilos.center {{producto.kilos}}
+                            td.td_sacos.center {{producto.cantidad}}
+                      .collapsible-header
+                        h2 Más información
+          //- .col.m4.s12.offset-m4(style='text-align:center;' v-for="(item, index) in paquetes" v-if="index > 1")
+            .card
+              img.card-img-top(style="width:100%;" v-bind:src="'images/paquete'+item.id+'.png'", alt='Card image cap')
+              .card-body
+                .row.card-title(style="margin:0px;")
+                  .col.m8
+                    h1 {{item.name}} 
+                  .col.m4(style="text-align:left;")
+                    p(style="text-decoration: line-through;") ${{item.precio }} 
+                    p() ${{item.precioDescuento }}
+                p.wrap_count
+                  button(v-on:click.prevent="decrementInput(index, 'paquete')")
+                    i(class="fa fa-minus-circle")
+                  input(type="number" v-model="inputPaquete[index].input" )
+                  button(v-on:click.prevent="incrementInput(index, 'paquete')")
+                    i(class="fa fa-plus-circle")
+                p
+                  button.btn.btnAddCar(v-if="inputPaquete[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')") Agregar al pedido
+                
+                .col.m12
+                  table
+                    colgroup
+                      col
+                      col(span='2' style="text-align:right;")
+                    tr
+                      td.td_presentacion Presentación
+                      td.td_kilos Kilos
+                      td.td_sacos Sacos
+                    tr(v-for="(producto, contador) in item.products", v-if="contador <= 3")
+                      td {{producto.marca}} {{producto.nombre}}
+                      td.center {{producto.kilos}}
+                      td.center {{producto.cantidad}}
+                    
+                  ul.collapsible
+                    li
+                      .collapsible-body
+                        table
+                          tr(v-for="(producto, contador) in item.products", v-if="contador > 3")
+                            td.td_presentacion {{producto.marca}} {{producto.nombre}}
+                            td.td_kilos.center {{producto.kilos}}
+                            td.td_sacos.center {{producto.cantidad}}
+                      .collapsible-header
+                        h2 Más información
                       
-                    ul.collapsible
-                      li
-                        .collapsible-body
-                          table
-                            tr(v-for="(producto, contador) in item.products", v-if="contador > 3")
-                              td.td_presentacion {{producto.marca}} {{producto.nombre}}
-                              td.td_kilos.center {{producto.kilos}}
-                              td.td_sacos.center {{producto.cantidad}}
-                        .collapsible-header
-                          h2 Más información
-                        
                      
         br
         //- ----------------- Stock Producto Linea selecta
@@ -264,7 +307,7 @@ html(lang="en")
     script.
       var infoUser = JSON.parse(localStorage.getItem('usuario'));
       //- console.log("id User", infoUser[0].id);
-      var urlApi = "http://192.168.1.112:3000";
+      var urlApi = "http://nupec.com:3000";
       var formulario = new Vue({
         el: '#formulario',
         data: {
