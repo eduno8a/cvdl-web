@@ -36,31 +36,24 @@ html(lang="en")
           .row.pedidoHead(style="margin:20px auto;")
             .col.m12
               h2 
-                strong Nombre : 
-                | {{usuario.nombre}} {{usuario.apellido_paterno}}
+                strong Nombre : {{usuario.nombre}} {{usuario.apellido_paterno}}
               h2 
-                strong Direccion :  
-                | {{usuario.calle}} 
-                strong Numero : 
-                | {{usuario.numero_int}} 
-                strong Ext. : 
-                | {{usuario.numero_ext}} 
-                strong Colonia : 
-                | {{usuario.colonia}}
+                strong Direccion : {{usuario.calle}} 
+                strong Numero : {{usuario.numero_int}} 
+                strong Ext. : {{usuario.numero_ext}} 
+                strong Colonia : {{usuario.colonia}}
               h2  
-                strong CP :
-                | {{usuario.cp}}
+                strong CP : {{usuario.cp}}
               h2
-                strong Estado : 
-                | {{estado.name}} 
-                strong Municipio : 
-                | {{municipio.name}}  
+                strong Estado : {{estado.name}} 
+                strong Municipio : {{municipio.name}}  
               h2
-                strong Teléfono : 
-                | {{usuario.telefono}} 
+                strong Teléfono : {{usuario.telefono}} 
             
-                strong Email : 
-                | {{usuario.email}}
+                strong Email : {{usuario.email}}
+              br
+              h2 
+                strong Nota importante: Esta promoción no es acumulable con otras promociones y/o descuento por pronto pago.
           .row.tablePedido.tablaOrden
             table
               tr
@@ -77,6 +70,7 @@ html(lang="en")
                 td ${{item.total}}
           .row.tablePedido
             .firma(style="")
+              h2(style="font-size:12px;padding-top:150px;") Este formato no es un comprobante fiscal. ni de venta, únicamente es un comprobante de registro de producto, y tendra que ser confirmado en la sede antes mencionada para su reparto
             .tTotales.col(style="padding:0px;")
               table
                 tr
@@ -153,6 +147,7 @@ html(lang="en")
                 td ${{item.total}}
           .row.tablePedido
             .firma(style="")
+              h2(style="font-size:12px;padding-top:150px;") Este formato no es un comprobante fiscal. ni de venta, únicamente es un comprobante de registro de producto, y tendra que ser confirmado en la sede antes mencionada para su reparto
             .tTotales.col(style="padding:0px;")
               table
                 tr
@@ -221,6 +216,7 @@ html(lang="en")
                 var imgData = canvas.toDataURL('image/png');
                 var doc = new jsPDF('p', 'mm', [220, heightCont]); //210mm wide and 297mm high
                 doc.addImage(imgData, 'PNG', 10, 10);
+                
                 doc.save('pedido.pdf');
             }
             });
