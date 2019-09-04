@@ -196,7 +196,8 @@
                 var imgData = canvas.toDataURL('image/png');
                 var doc = new jsPDF('p', 'mm', [297, 210]); //210mm wide and 297mm high
                 doc.addImage(imgData, 'PNG', 10, 10);
-                doc.save('sample.pdf');
+                doc.addPage();
+                doc.save('pedido.pdf');
             }
             });
           }
@@ -236,16 +237,22 @@
               }
             });
             this.paquetes = this.paquetes.map(function(item) {
-              let costoUnitario = Math.round(item.precios.unitario*Math.pow(10,2))/Math.pow(10,2);
-              let importe = item.cantidad * item.precios.unitario;
+              
+              let costoUnitario = item.precios.unitario * .84;
+              costoUnitario = Math.round(costoUnitario*Math.pow(10,2))/Math.pow(10,2);
+      
+              let importe = item.cantidad * costoUnitario;
               importe = Math.round(importe*Math.pow(10,2))/Math.pow(10,2);
-              let iva = importe * 0.16;
-              iva = Math.round(iva*Math.pow(10,2))/Math.pow(10,2);
-              let total = iva + importe;
+      
+              
+              let total = costoUnitario * item.cantidad;
               total = Math.round(total*Math.pow(10,1))/Math.pow(10,1);
               
               let totalDescuento = total * (1-item.descuento/100);
               totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
+              let iva = total * .16;
+              iva = Math.round(iva*Math.pow(10,1))/Math.pow(10,1);
+      
               return {
                 id: item.id,
                 cantidad: item.cantidad,
