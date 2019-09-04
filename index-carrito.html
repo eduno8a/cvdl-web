@@ -63,7 +63,7 @@
         <h1 class="title_head" style="color:white;">NUPEC</h1><br>
         <div class="row wrap_paquete" id="accordionExample">
           <div class="col m4 s12" style="text-align:center;" v-for="(item, index) in paquetes">
-            <div class="card"><img class="card-img-top" style="width:100px;" src="http://nupec.com/wp-content/uploads/2019/01/npc-menu-canina-especializada.png" alt="Card image cap">
+            <div class="card"><img class="card-img-top" style="width:100%;" v-bind:src="'images/paquete'+item.id+'.png'" alt="Card image cap">
               <div class="card-body">
                 <div class="row card-title" style="margin:0px;">
                   <div class="col m8">
@@ -141,14 +141,14 @@
               </div>
             </div>
           </div>
-          <div class="col m2"><img src="http://nupec.com/wp-content/uploads/2019/01/npc-menu-canina-especializada.png" alt=""></div>
+          <div class="col m2"><img v-bind:src="'images/'+categoria.marca+''+categoria.nombre+'.png'" alt=""></div>
           <div class="col m10"> 
             <div class="row table_body" v-for="(item, index) in productos" v-if="item.marca == categoria.marca &amp;&amp; item.nombre == categoria.nombre" v-bind:style="{borderColor: categoria.color}">
               <div class="col m3">
                 <h2>{{item.marca}} {{item.nombre}}</h2>
               </div>
               <div class="col m1">
-                <h2>{{item.kilos}}</h2>
+                <h2>{{item.kilos}} Kg</h2>
               </div>
               <div class="col m1">
                 <h2>${{item.precio}}</h2>
@@ -165,7 +165,7 @@
                   <button v-on:click.prevent="decrementInput(index, 'producto')"><i class="fa fa-minus-circle"></i></button>
                   <input type="number" v-model="inputProducto[index].input">
                   <button v-on:click.prevent="incrementInput(index, 'producto')"><i class="fa fa-plus-circle"></i></button>
-                  <button v-if="inputProducto[index].input &gt; 0" v-on:click.prevent="addCarritoP(item.id, item.nombre, index, item.totalDescuento, 'producto')"><i class="fa fa-check-circle" style="padding-left: 20px;"></i></button>
+                  <button v-if="inputProducto[index].input &gt; 0" v-on:click.prevent="addCarritoP(item.id, item.marca+' '+item.nombre+' '+item.kilos+'Kg', index, item.totalDescuento, 'producto')"><i class="fa fa-check-circle" style="padding-left: 20px;"></i></button>
                 </p>
               </div>
             </div>
@@ -217,7 +217,7 @@
           </div><br><br>
         </div>
         <div class="row" v-if="carritoProductos.length &gt; 0">
-          <h1 class="titleResumne">Linea selecta</h1>
+          <h1 class="titleResumne">Línea selecta</h1>
           <div class="col m12" v-bind:class="" v-if="totalProducto &gt; 0">
             <select class="browser-default" v-model="distribuidor_se">
               <option selected="" value="">Proveedor </option>
@@ -281,7 +281,7 @@
     <script>
       var infoUser = JSON.parse(localStorage.getItem('usuario'));
       //- console.log("id User", infoUser[0].id);
-      var urlApi = "http://nupec.com:3000";
+      var urlApi = "http://192.168.1.112:3000";
       var formulario = new Vue({
         el: '#formulario',
         data: {
@@ -542,11 +542,11 @@
         watch: {
           codigoPostal: function(){
       
-            if(this.codigoPostal.length == 5){
+            if(this.codigoPostal.length >= 4){
               axios.get(urlApi+'/api/v1/catalogo/postal/'+this.codigoPostal).then((response) => {
                 
                 if(response.data.estado.id == null){
-                  alert("codigo postal no valido")
+                  alert("codigo postal no valido-")
                   return
                 }
                 this.estado = response.data.estado.id;

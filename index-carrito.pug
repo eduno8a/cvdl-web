@@ -85,7 +85,7 @@ html(lang="en")
         .row.wrap_paquete#accordionExample()
             .col.m4.s12(style='text-align:center;' v-for="(item, index) in paquetes")
               .card
-                img.card-img-top(style="width:100px;" src='http://nupec.com/wp-content/uploads/2019/01/npc-menu-canina-especializada.png' alt='Card image cap')
+                img.card-img-top(style="width:100%;" v-bind:src="'images/paquete'+item.id+'.png'", alt='Card image cap')
                 .card-body
                   .row.card-title(style="margin:0px;")
                     .col.m8
@@ -147,13 +147,13 @@ html(lang="en")
               .col.m1
                 h2 TOTAL
           .col.m2
-            img(src="http://nupec.com/wp-content/uploads/2019/01/npc-menu-canina-especializada.png", alt="")
+            img(v-bind:src="'images/'+categoria.marca+''+categoria.nombre+'.png'", alt="")
           .col.m10  
             .row.table_body(v-for="(item, index) in productos" v-if="item.marca == categoria.marca && item.nombre == categoria.nombre", v-bind:style="{borderColor: categoria.color}")
               .col.m3
                 h2 {{item.marca}} {{item.nombre}}
               .col.m1
-                h2 {{item.kilos}}
+                h2 {{item.kilos}} Kg
               .col.m1
                 h2 ${{item.precio}}
               .col.m1
@@ -168,7 +168,7 @@ html(lang="en")
                   input(type="number" v-model="inputProducto[index].input" )
                   button(v-on:click.prevent="incrementInput(index, 'producto')")
                     i(class="fa fa-plus-circle")
-                  button(v-if="inputProducto[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.nombre, index, item.totalDescuento, 'producto')")
+                  button(v-if="inputProducto[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.marca+' '+item.nombre+' '+item.kilos+'Kg', index, item.totalDescuento, 'producto')")
                     i(class="fa fa-check-circle" style="padding-left: 20px;")
 
       //- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -212,7 +212,7 @@ html(lang="en")
           br
           //- -------------------- Resumen Producto Resumen Linea Selecta
         .row(v-if="carritoProductos.length > 0")
-          h1.titleResumne Linea selecta
+          h1.titleResumne Línea selecta
           .col.m12(v-bind:class="", v-if="totalProducto > 0")
             select.browser-default(v-model="distribuidor_se")
               option(selected='' value='') Proveedor 
@@ -264,7 +264,7 @@ html(lang="en")
     script.
       var infoUser = JSON.parse(localStorage.getItem('usuario'));
       //- console.log("id User", infoUser[0].id);
-      var urlApi = "http://nupec.com:3000";
+      var urlApi = "http://192.168.1.112:3000";
       var formulario = new Vue({
         el: '#formulario',
         data: {
@@ -525,11 +525,11 @@ html(lang="en")
         watch: {
           codigoPostal: function(){
 
-            if(this.codigoPostal.length == 5){
+            if(this.codigoPostal.length >= 4){
               axios.get(urlApi+'/api/v1/catalogo/postal/'+this.codigoPostal).then((response) => {
                 
                 if(response.data.estado.id == null){
-                  alert("codigo postal no valido")
+                  alert("codigo postal no valido-")
                   return
                 }
                 this.estado = response.data.estado.id;
