@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Nupec</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" type="text/css" href="css/generales.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body>
+    <div class="row" id="formulario" style="margin:0px;">
+      <div class="row">
+        <div class="col m6 s10 login center offset-s1 offset-m3"><img src="images/NUPEC.png" style="width:200px;">
+          <div class="row">
+            <form class="col m6 s10 offset-m3 offset-s1" @submit="checkLogin()">
+              <div class="validate-input" v-bind:class=""><span>Email</span>
+                <input type="email" name="email" placeholder="correo@nupec.com" v-model="loginEmail"><span class="focus-input"></span>
+                <button class="btn btn-info center" type="button" v-on:click="checkLogin()">Ingresar</button><br><br><a class="modal-trigger" href="#modal1">Registrarse</a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal" id="modal1">
+        <div class="modal-content">
+          <h4 class="title_head">Registro</h4><br>
+          <hr><br>
+          <form class="validate-form row" id="formUser">
+            <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>Nombre *</span>
+              <input type="text" name="Armando" placeholder="Nombre" v-model="nombre"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>Apellidos *</span>
+              <input type="text" name="apellidos" placeholder="Pérez Martínez" v-model="apellidos"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>Teléfono *</span>
+              <input type="number" name="telefono" placeholder="(442)2-22-17-90" v-model="telefono" max="10"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>Email *</span>
+              <input id="correoR" type="email" name="email" placeholder="correo@nupec.com" v-model="correo"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>Calle *</span>
+              <input type="text" name="calle" placeholder="Av. Pirineos" v-model="calle"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m3 s6" v-bind:class=""><span>No. Int. *</span>
+              <input type="text" name="num_interior" placeholder="10" v-model="noInterior"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m3 s6" v-bind:class=""><span>No. Ext.</span>
+              <input type="text" name="num_exterior" placeholder="20" v-model="noExterior"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>CP *</span>
+              <input type="number" name="codigo_postal" placeholder="76000" v-model="codigoPostal" min="1" max="5"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>Colonia *</span>
+              <input type="text" name="colonia" v-model="colonia" placeholder="Centro"><span class="focus-input"></span>
+            </div>
+            <div class="col m6 s6" v-bind:class=""><span>Estado *</span>
+              <select class="browser-default" v-model="estado">
+                <option value="">Estado</option>
+                <option v-for="estado in estados" v-bind:value="estado.id">{{estado.name}}</option>
+              </select>
+            </div>
+            <div class="col m6 s6" v-bind:class=""><span>Municipio *</span>
+              <select class="browser-default" name="budget" v-model="municipio">
+                <option value="">Municipio</option>
+                <option selected="" v-for="municipio in municipios" v-bind:value="municipio.id">{{municipio.name}}</option>
+              </select><span class="focus-input"></span>
+            </div>
+            <div class="col s12" style="padding-top:20px">
+              <div class="col s6 center"><a class="btn btn-info modal-close" href="#!" style="background:#a2a2a2;">Cancelar</a></div>
+              <div class="col s6 center">
+                <button class="btn btn-info" type="button" v-on:click="checkForm()">Crear Usuario</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/2.6.vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/main.js"></script>
+    <scritp src="https://unpkg.com/vue-currency-filter@3.2.3/dist/vue-currency-filter.iife.js"></scritp>
+    <script src="https://unpkg.com/@trevoreyre/autocomplete-vue"></script>
+    <script>
+      var urlApi = "http://nupec.com:3000";
+      var urlHome = 'http://localhost/nutec/front-leon/home.html';
+      var formulario = new Vue({
+        el: '#formulario',
+        data: {
+          correo:'',
+          nombre:'',
+          apellidos:'',
+          calle:'',
+          noInterior:'',
+          noExterior:'',
+          colonia:'',
+          codigoPostal: '',
+          estado:'',
+          municipio:'',
+          telefono:'',
+          colonias:[],
+          estados:[],
+          municipios:[],
+          loginEmail: '',
+          
+        },
+        methods: {
+          checkLogin: function(){
+            if(this.validEmail(this.loginEmail)){
+              axios.get(urlApi+'/api/v1/usuario/'+this.loginEmail)
+              .then(function (response) {
+                console.log(response)
+                if(response.data){
+                  M.toast({html: 'Bienvenido', classes: 'backgroundGreen'})
+                  localStorage.setItem("usuario", JSON.stringify(response.data));
+                  //- var infoUser = JSON.parse(localStorage.getItem('usuario'));
+                  //- console.log(infoUser)
+                  window.location.href = urlHome;
+                } else{
+                  M.toast({html: 'Corre no registrado', classes: 'backgroundRed'})
+                }
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+              
+              //- localStorage.setItem("usuario", '230');
+              //- window.location.href = 'http://localhost/nutec/front-leon/';
+            } else{
+              M.toast({html: 'Corre NO valido, ingresa un correo valido', classes: 'backgroundRed'})              
+            }
+          },
+          checkForm(){
+            console.log(this.nombre +'_-'+ this.apellidos +'_-'+ this.calle +'_-'+ this.noInterior +'_-'+ this.colonia +'_-'+ this.codigoPostal +'_-'+ this.estado +'_-'+ this.municipio +'_-'+ this.telefono +'_-'+ this.correo)
+            if(!this.validEmail(this.correo)){
+              M.toast({html: 'Corre NO valido, ingresa un correo valido', classes: 'backgroundRed'});
+              document.getElementById("correoR").focus();
+              return
+            }
+            if(this.nombre == ''  || this.apellidos == '' || this.calle == '' || this.noInterior == '' || this.colonia == '' || this.codigoPostal == '' || this.estado == '' || this.municipio == '' || this.telefono == '' || this.correo == '' ){
+              M.toast({html: 'Los campos con asterisco son obligatorios'})
+              return
+            }
+            
+      
+            var vm = this
+            axios.post(urlApi+'/api/v1/usuario/create', {
+                nombre: this.nombre,
+                apellido_paterno: this.apellidos,
+                municipio_id: this.municipio,
+                estado_id: this.estado,
+                calle: this.calle,
+                numero_int: this.noInterior,
+                numero_ext: this.noExterior,
+                colonia: this.colonia,
+                cp: this.codigoPostal,
+                telefono: this.telefono,
+                email: this.correo
+              })
+              .then(function (response) {
+      
+                  M.toast({html: 'Bienvenido', classes: 'backgroundGreen'})
+                  localStorage.setItem("usuario", JSON.stringify(response.data.data));
+                 
+                  window.location.href = urlHome;
+              })
+              .catch(function (error) {
+                console.log(error);
+                if(error == "Error: Request failed with status code 409"){
+                  M.toast({html: 'El correo ya fue registrado, intenta con otro.', classes: 'backgroundRed'});
+                }
+              });
+              
+          },
+          validEmail: function (email) {
+            var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(email);
+          }
+        },
+        mounted () {          
+          $('.modal').modal();
+        },
+        watch: {
+          codigoPostal: function(){
+      
+            if(this.codigoPostal.length == 5){
+              axios.get(urlApi+'/api/v1/catalogo/postal/'+this.codigoPostal).then((response) => {
+                if(response.data.estado.id == null){
+                  alert("codigo postal no valido")
+                  return
+                }
+                this.estado = response.data.estado.id;
+                this.estados = [response.data.estado];
+                this.municipios = [response.data.municipio];
+                if(this.municipios.length == 1){
+                  this.municipio = response.data.municipio.id;
+                }
+                
+              })
+              .catch((e) => {
+                console.error(e)
+              });
+              
+              
+            }
+      
+          }
+        },
+        filters:{
+        
+        },  
+      });
+    </script>
+  </body>
+</html>

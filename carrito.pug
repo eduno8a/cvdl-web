@@ -1,0 +1,562 @@
+doctype html
+html(lang="en")
+  head
+    title Nupec
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" type="text/css" href="css/materialize.min.css")
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+    link(rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css")
+    link(rel="stylesheet" type="text/css" href="vendor/animate/animate.css")
+    
+    link(rel="stylesheet" type="text/css" href="css/util.css")
+    link(rel="stylesheet" type="text/css" href="css/generales.css")
+    link(rel="stylesheet" type="text/css" href="css/style.css") 
+  body
+    
+    .row#formulario(style="margin:0px;")
+      .row(style="margin:0px;")
+        .row.container_logo(style="background: white;")
+          .col.m12.center
+            a(href="home.html")
+              img(src="images/NUPEC.png" style="width:200px;")
+              br
+          .col.m6.offset-m1
+              h1.title_head.left Productos
+          .col.m5(style="text-align:right;")
+            a.btn(href="home.html") regresar
+     
+      //- ----------------- Stock       
+      .wrap_product.animated.col.m8() 
+        h1.title_head(style="color:white;") Paquetes
+        br
+        //- ----------------- Stock Paquetes
+        .row.wrap_paquete#accordionExample()
+            .col.m4.s12(style='text-align:center;' v-for="(item, index) in paquetes")
+              .card
+                img.card-img-top(style="width:100%;" v-bind:src="'images/paquete'+item.id+'.png'", alt='Card image cap')
+                .card-body
+                  .row.card-title(style="margin:0px;")
+                    .col.m8
+                      h1 Precio
+                    .col.m4(style="text-align:left;")
+                      p(style="text-decoration: line-through;") ${{item.precio }} 
+                      p() ${{item.precioDescuento | moneda}}
+                  p.wrap_count
+                    button(v-on:click.prevent="decrementInput(index, 'paquete')")
+                      i(class="fa fa-minus-circle")
+                    input(type="number" v-model="inputPaquete[index].input" )
+                    button(v-on:click.prevent="incrementInput(index, 'paquete')")
+                      i(class="fa fa-plus-circle")
+                  p
+                    button.btn.btnAddCar(v-if="inputPaquete[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')") Agregar al pedido
+                  
+                  .col.m12
+                    table
+                      colgroup
+                        col
+                        col(span='2' style="text-align:right;")
+                      tr
+                        td.td_presentacion Presentación
+                        td.td_kilos Kilos
+                        td.td_sacos Sacos
+                      tr(v-for="(producto, contador) in item.products", v-if="contador <= 3")
+                        td {{producto.marca}} {{producto.nombre}}
+                        td.center {{producto.kilos}}
+                        td.center {{producto.cantidad}}
+                      
+                    ul.collapsible
+                      li
+                        .collapsible-body
+                          table
+                            tr(v-for="(producto, contador) in item.products", v-if="contador > 3")
+                              td.td_presentacion {{producto.marca}} {{producto.nombre}}
+                              td.td_kilos.center {{producto.kilos}}
+                              td.td_sacos.center {{producto.cantidad}}
+                        .collapsible-header
+                          h2 Más información
+                        
+                     
+        br
+        //- ----------------- Stock Producto Linea selecta
+        h1.title_head(style="color:white;") Linea selecta  
+        .row.table_producto(v-for="(categoria, index) in categorias")
+          
+          .col.m11.offset-m1
+            br
+            .row.table_head(v-bind:style="{borderColor: categoria.color}")
+              .col.m2
+                h2 NOMBRE
+              .col.m1
+                h2 KG
+              .col.m2
+                h2 DETALLE
+              .col.m2
+                h2 IVA
+              .col.m2
+                h2 TOTAL
+          .col.m1
+            img(v-bind:src="'images/'+categoria.marca+''+categoria.nombre+'.png'", alt="")
+          .col.m11 
+            .row.table_body(v-for="(item, index) in productos" v-if="item.marca == categoria.marca && item.nombre == categoria.nombre", v-bind:style="{borderColor: categoria.color}")
+              .col.m2
+                h2 {{item.marca}} {{item.nombre}}
+              .col.m1
+                h2 {{item.kilos}}
+              .col.m2
+                h2 ${{item.precio}}
+              .col.m2
+                h2 ${{item.iva}}
+              .col.m2
+                h2(style="text-decoration: line-through;") ${{item.total}}
+                h2 ${{item.totalDescuento}}
+              .col.m3
+                p.wrap_count
+                  button(v-on:click.prevent="decrementInput(index, 'producto')")
+                    i(class="fa fa-minus-circle")
+                  input(type="number" v-model="inputProducto[index].input" )
+                  button(v-on:click.prevent="incrementInput(index, 'producto')")
+                    i(class="fa fa-plus-circle")
+                  button(v-if="inputProducto[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.nombre, index, item.totalDescuento, 'producto')")
+                    i(class="fa fa-check-circle" style="padding-left: 20px;")
+
+      //- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+          ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Resumen 
+      .wrap_orden.animated.col.m4
+        h1.title_head(style="border-bottom: 1px solid #61bee5;margin-bottom:10px;") Resumen
+        //- //////////////////// Resumen Paquetes
+        .row(v-if="carritoPaquetes.length > 0")
+          .col.s12
+            h1.titleResumne Paquetes 
+          .col.m12(v-bind:class="" v-if="totalPaquete > 0")
+            select.browser-default(v-model="distribuidor_su")
+              option(selected='' value='') Proveedor 
+              option(v-for="distribuidor in distribuidores_su", v-bind:value="distribuidor.id") {{distribuidor.contacto}}
+            br
+          .col.s12.wrap_resumen_head()
+            .col.m4
+              h2 Nombre
+            .col.m2
+              h2 Cant
+            .col.m3
+              h2 Total
+          .col.s12.wrap_resumen_body(v-for="(item, index) in carritoPaquetes")
+            .col.m4
+              h2 {{item.nombre}}
+            .col.m2
+              h2 {{item.count}}
+            .col.m3
+              h2 ${{(item.count * item.price).toLocaleString() }}
+            .col.m3
+              p.wrap_count_resumen
+                button(v-on:click.prevent="decrementInput(index, 'paqueteCarrito')")
+                  i(class="fa fa-minus-circle")
+                button(v-on:click.prevent="item.count++,total()")
+                  i(class="fa fa-plus-circle")
+                button(v-on:click.prevent="removeCarrito(index, 'paquete')")
+                  i(class="fa fa-times-circle")
+          .row.offset-m6.col.m3
+            h2(v-if="totalPaquete > 0", style="font-size:20px;padding-top:10px;") ${{totalPaquete.toLocaleString() }}
+          br
+          br
+          //- -------------------- Resumen Producto Resumen Linea Selecta
+        .row(v-if="carritoProductos.length > 0")
+          .col.s12
+            h1.titleResumne Linea selecta
+          .col.m12(v-bind:class="", v-if="totalProducto > 0")
+            select.browser-default(v-model="distribuidor_se")
+              option(selected='' value='') Proveedor 
+              option(v-for="distribuidor in distribuidores_se", v-bind:value="distribuidor.id") {{distribuidor.contacto}}
+          .col.s12.wrap_resumen_head
+            .col.m4
+              h2 Nombre
+            .col.m3
+              h2 Cant
+            .col.m2
+              h2 Total
+          .col.s12.wrap_resumen_body(v-for="(item, index) in carritoProductos")
+            .col.m4
+              h2 {{item.nombre}}
+            .col.m3
+              h2 {{item.count}}
+            .col.m2
+              h2 ${{(item.count * item.price).toLocaleString()}}
+            .col.m3
+              p.wrap_count_resumen
+                button(v-on:click.prevent="decrementInput(index, 'productoCarrito')")
+                  i(class="fa fa-minus-circle")
+                button(v-on:click.prevent="item.count++, total()")
+                  i(class="fa fa-plus-circle")
+                button(v-on:click.prevent="removeCarrito(index, 'producto')")
+                  i(class="fa fa-times-circle")
+          .row.offset-m7.col.m2
+            h2(v-if="totalProducto > 0", style="font-size:20px;padding-top:10px;") ${{totalProducto.toLocaleString()}}
+        
+        .row.totalFixed(v-if="(totalPaquete + totalProducto )> 0")
+          h2(v-if="(totalPaquete + totalProducto )> 0") Total ${{(totalPaquete + totalProducto).toLocaleString()}}
+        button.btn.btn-info(type="button", v-on:click="crearOrden()", v-if="carritoProductos.length > 0 || carritoPaquetes.length > 0", style="margin-top:10px;") Crear orden
+      #modalConfirmar.modal
+        .modal-content
+          h1.title_head 
+            img(src="images/check.png")
+            | Pedido confirmado
+        .modal-footer.center(style="text-align:center;margin-bottom:20px;")
+          a.btn(v-bind:href='pedidoUrl') Ver nota de venta
+          
+    script(src="vendor/jquery/jquery-3.2.1.min.js")
+    script(src="vendor/daterangepicker/moment.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js")
+    script(src="js/materialize.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/vue")
+    script(src="https://unpkg.com/axios/dist/axios.min.js")
+    script(src="js/main.js")
+    scritp(src="https://unpkg.com/vue-currency-filter@3.2.3/dist/vue-currency-filter.iife.js")
+    script(src="https://unpkg.com/@trevoreyre/autocomplete-vue")
+    script.
+      var infoUser = JSON.parse(localStorage.getItem('usuario'));
+      console.log(infoUser)
+      var urlApi = "http://nupec.com:3000";
+      var formulario = new Vue({
+        el: '#formulario',
+        data: {
+          nombre:'',
+          apellidos:'',
+          calle:'',
+          noInterior:'',
+          noExterior:'',
+          colonia:'',
+          codigoPostal: '',
+          estado:'',
+          municipio:'',
+          telefono:'',
+          correo:'',
+          idUser : 0,
+          distribuidor_su: '',
+          distribuidor_se: '',
+          distribuidores_su:[],
+          distribuidores_se:[],
+          pedidoUrl: '',
+          paquetes: [{code: "paquete1", nombre: "Paquete 1", detalle: 120.69, iva: 19.31, total: 140.00}, {code: "paquete2", nombre: "Paquete 2", detalle: 120.69, iva: 19.31, total: 140.00}, {code: "paquete3", nombre: "Paquete 3", detalle: 120.69, iva: 19.31, total: 140.00}],
+          categorias:[{marca: "OPTIMO", nombre:"CACHORRO", color: "#25B0F0"}, {marca: "OPTIMO", nombre:"ADULTO", color: "#F90F01"}, {marca: "OPTIMO", nombre:"TREAT TRAINNING", color: "#F90F01"}, {marca: "OPTIMO", nombre:"TREAT DENTAL STR", color: "#F90F01"}, {marca: "OPTIMO", nombre:"FELINO", color: "#8C3FC5"}, {marca: "NUCAN", nombre:"CACHORRO", color: "#3E1B59"}, {marca: "NUCAN", nombre:"ADULTO", color: "#3E1B59"}, {marca: "NUCAT", nombre:"", color: "#E26B09"}, {marca: "NUFIT", nombre:"CACHORRO", color: "#E26B09"}, {marca: "NUFIT", nombre:"ADULTO", color: "#FDC000"}],
+          inputPaquete: [{input: 0}, {input:0}, {input:0}],
+          inputProducto: [{input: 0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}, {input:0}],
+          carritoPaquetes: [],
+          carritoProductos: [],
+          colonias:[],
+          estados:[],
+          municipios:[],
+          totalPaquete: 0,
+          totalProducto: 0,
+          wrapContactCenter: true,
+          wrapContactLeft: false,
+          productos: [],
+          producto: [{code: "opc2",nombre: "OPTIMO CACHORRO", kg: "2", detalle: 62.93, iva: 10.07, total: 73.00},
+          {code: "opc4", nombre: "OPTIMO CACHORRO", kg: "4", detalle: 120.69, iva: 19.31, total: 140.00},
+          {code: "opc20",nombre: "OPTIMO CACHORRO", kg: "20", detalle: 534.48, iva: 85.52, total: 620.00}]
+        },
+        methods: {
+          addCarritoP(code, nombre, index, price, type){
+            if(type == "paquete"){
+              this.carritoPaquetes.push({code: code, nombre: nombre, count: this.inputPaquete[index].input, price: price })
+              this.inputPaquete[index].input=0;
+            }
+            if(type == "producto"){
+              this.carritoProductos.push({code: code, nombre: nombre, count: this.inputProducto[index].input, price: price })
+              this.inputProducto[index].input=0;
+            }
+            this.total();
+          },
+          removeCarrito(index, type){
+            if(type == "paquete"){
+              this.carritoPaquetes.splice(index,1);
+            }
+            if(type == "producto"){
+              this.carritoProductos.splice(index,1);
+            }
+            this.total();
+          },
+          incrementInput (index, type) {
+            if(type == "producto"){
+              this.inputProducto[index].input++;
+            }
+            if(type == "paquete"){
+              this.inputPaquete[index].input++;
+            }
+            this.total();
+          },
+          decrementInput (index, type) {
+            if(this.inputProducto[index].input > 0 && type == "producto"){
+              this.inputProducto[index].input--;
+            }
+            if(this.inputPaquete[index].input > 0 && type == "paquete"){
+              this.inputPaquete[index].input--;
+            }
+            if(this.carritoProductos.length > 0){
+              if(this.carritoProductos[index].count > 0 && type == "productoCarrito"){
+                this.carritoProductos[index].count--;
+                if(this.carritoProductos[index].count == 0){
+                  this.removeCarrito(index, 'producto')
+                }
+              }
+            }
+           
+            if(this.carritoPaquetes.length > 0){
+              if(this.carritoPaquetes[index].count > 0 && type == "paqueteCarrito"){
+                this.carritoPaquetes[index].count--;
+                if(this.carritoPaquetes[index].count == 0){
+                  this.removeCarrito(index, 'paquete')
+                }
+              }
+            }
+            this.total();
+          },
+          total(){
+            var  sum,sum1 = 0;
+            if(this.carritoProductos.length > 0){
+              this.totalProducto = this.carritoProductos.reduce((sum, item) => sum + item.count * item.price, 0);
+            }else{
+              this.totalProducto = 0;
+            }
+            if(this.carritoPaquetes.length > 0){
+              this.totalPaquete = this.carritoPaquetes.reduce((sum1, item) => sum1 + item.count * item.price, 0);
+            }else{
+              this.totalPaquete = 0;
+            }
+          },
+          checkForm(){
+            console.log(this.nombre +'_-'+ this.apellidos +'_-'+ this.calle +'_-'+ this.noInterior +'_-'+ this.colonia +'_-'+ this.codigoPostal +'_-'+ this.estado +'_-'+ this.municipio +'_-'+ this.telefono +'_-'+ this.correo)
+            if(this.nombre == ''  || this.apellidos == '' || this.calle == '' || this.noInterior == '' || this.colonia == '' || this.codigoPostal == '' || this.estado == '' || this.municipio == '' || this.telefono == '' || this.correo == '' ){
+              alert("Llene todos los campos")
+              return
+            }
+
+            var vm = this
+            axios.post(urlApi+'/api/v1/usuario/create', {
+                nombre: this.nombre,
+                apellido_paterno: this.apellidos,
+                municipio_id: this.municipio,
+                estado_id: this.estado,
+                calle: this.calle,
+                numero_int: this.noInterior,
+                numero_ext: this.noExterior,
+                colonia: this.colonia,
+                cp: this.codigoPostal,
+                telefono: this.telefono,
+                email: this.correo
+              })
+              .then(function (response) {
+                
+                vm.idUser = response.data.data.id;
+                console.log(vm.idUser)
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+              
+          },
+          pedidoUrlChange (id){
+            console.log(id+"----1")
+            this.pedidoUrl = 'pedido.html?idPedido='+id;
+          },
+          crearOrden(){
+            console.log("-----1")
+            if(this.idUser == 0){
+              alert("Para solicitar pedido crea tu usuario")
+              return
+            }
+            if((this.distribuidor_su == '' && this.carritoPaquetes.length > 0) || (this.distribuidor_se == '' && this.carritoProductos.length > 0) ){
+              alert("Seleccione un distribuidor")
+              return
+            }
+            if(this.carritoPaquetes.length == 0 && this.carritoProductos.length == 0){
+              alert("Agrega elementos a la orden")
+              return
+            }
+            let data = {};
+            data.id_usuario = this.idUser;
+            if(this.distribuidor_su != ''){
+              data.distribuidor_su = this.distribuidor_su;
+            }else{
+              data.distribuidor_su = null;
+            }
+            if(this.distribuidor_se != ''){
+              data.distribuidor_se = this.distribuidor_se;
+            }else{
+              data.distribuidor_se = null
+            }
+            data.paquetes = {
+              basic: 0,
+                mix: 0,
+                master: 0
+            }
+            if(this.carritoPaquetes.length > 0){
+              this.carritoPaquetes.map(function(item) {
+                if(item.nombre == "Básico"){
+                  data.paquetes.basic =+ item.count; 
+                }
+                if(item.nombre == "Mix"){
+                  data.paquetes.mix =+ item.count; 
+                }
+                if(item.nombre == "Máster"){
+                  data.paquetes.master =+ item.count; 
+                }
+              });
+            }
+            data.productos= [];
+            if(this.carritoProductos.length > 0){
+              this.carritoProductos.map(function(item) {
+                data.productos.push({id: item.code, qty: item.count})
+              });
+            }
+            var vm = this;
+            console.log(data);
+            axios.post(urlApi+'/api/v1/orden/create', data)
+              .then(function (response) { 
+                console.log(response)
+                vm.pedidoUrl = 'pedido.html?idPedido='+response.data.data.id;
+                vm.carritoPaquetes = [];
+                vm.carritoProductos = [];
+                vm.distribuidor_se = '';
+                vm.distribuidor_su = '';
+                vm.totalProducto = 0;
+                vm.totalPaquete = 0;
+                $('#modalConfirmar').modal('open');
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          }
+        },
+        mounted () {
+          if(infoUser == null){
+            window.location.href = "login.html";
+          }else{
+            this.idUser = infoUser.id;
+          }
+
+          axios.get(urlApi+'/api/v1/producto/list').then((response) => {
+
+            this.productos = response.data
+             this.productos = this.productos.map(function(item) {
+              let iva = item.precio * 0.16;
+              iva = Math.round(iva*Math.pow(10,2))/Math.pow(10,2);
+              let total = iva + item.precio;
+              total = Math.round(total*Math.pow(10,1))/Math.pow(10,1);
+              let totalDescuento = total * (1-item.descuento/100);
+              totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
+              return {
+                id: item.id,
+                nombre: item.nombre,
+                marca: item.marca,
+                iva,
+                precio: item.precio,
+                kilos: item.kilos,
+                total,
+                totalDescuento
+              }
+            });
+          })
+          .catch((e) => {
+            console.error(e)
+          })
+          axios.get(urlApi+'/api/v1/paquete/list').then((response) => {
+            this.paquetes = response.data
+            this.paquetes = this.paquetes.map(function(item) {
+              
+              let preciodescuento = item.precio * (1-item.descuento/100);
+              preciodescuento = Math.round(preciodescuento*Math.pow(10,2))/Math.pow(10,2);
+            
+              return {
+                id: item.id,
+                name: item.name,
+                precio: item.precio,
+                precioDescuento: Math.round(preciodescuento),
+                descuento: item.descuento,
+                products: item.products
+              }
+            }); 
+          })
+          .catch((e) => {
+            console.error(e)
+          })
+          let urlSu = urlApi+'/api/v1/distribuidor/order/?zone='+infoUser.municipio_id.name+'&estado='+infoUser.estado_id.name+'&linea=1';
+          let urlSe = urlApi+'/api/v1/distribuidor/order/?zone='+infoUser.municipio_id.name+'&estado='+infoUser.estado_id.name+'&linea=2';
+              axios.get(urlSu).then((distribuidor) => {
+                this.distribuidores_su = distribuidor.data;
+                console.log(this.distribuidor_su)
+              })
+              .catch((e) => {
+                console.error(e)
+              });
+              axios.get(urlSe).then((distribuidorSe) => {
+                this.distribuidores_se = distribuidorSe.data;
+              })
+              .catch((e) => {
+                console.error(e)
+              });
+
+          $('.collapsible').collapsible();
+          $('.modal').modal();
+          
+        },
+        watch: {
+          codigoPostal: function(){
+
+            if(this.codigoPostal.length == 5){
+              axios.get(urlApi+'/api/v1/catalogo/postal/'+this.codigoPostal).then((response) => {
+                
+                if(response.data.estado.id == null){
+                  alert("codigo postal no valido")
+                  return
+                }
+                this.estado = response.data.estado.id;
+                this.estados = [response.data.estado];
+                this.municipios = [response.data.municipio];
+                if(this.municipios.length == 1){
+                  this.municipio = response.data.municipio.id;
+                }
+                let urlSu = urlApi+'/api/v1/distribuidor/order/?zone='+response.data.municipio.name+'&estado='+response.data.estado.name+'&linea=1';
+                let urlSe = urlApi+'/api/v1/distribuidor/order/?zone='+response.data.municipio.name+'&estado='+response.data.estado.name+'&linea=2';
+                    axios.get(urlSu).then((distribuidor) => {
+                      this.distribuidores_su = distribuidor.data;
+                      console.log(this.distribuidor_su)
+                    })
+                    .catch((e) => {
+                      console.error(e)
+                    });
+                    axios.get(urlSe).then((distribuidorSe) => {
+                      this.distribuidores_se = distribuidorSe.data;
+                    })
+                    .catch((e) => {
+                      console.error(e)
+                    });
+              })
+              .catch((e) => {
+                console.error(e)
+              });
+              
+              
+            }
+
+          }
+        },
+        filters:{
+        redondeo: function(value){
+        value = Math.round(value*Math.pow(10,2))/Math.pow(10,2);
+        return value = Math.round(value)
+        },
+        precioiva: function(value){
+          value = value * 1.16;
+          console.log(value+"---")
+          return value = Math.round(value*Math.pow(10,2))/Math.pow(10,2);
+        },
+        moneda: function(value){
+        return parseInt(value).toLocaleString()
+
+        }
+
+      },  
+      });
+
+
+

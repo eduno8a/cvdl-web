@@ -1,0 +1,320 @@
+/* //////////////////////////////////////// Colores*/
+.backgroundRed {
+  background: red; }
+
+.backgroundGreen {
+  background: green; }
+
+/* //////////////////////////////////////// Pedido */
+.textARight {
+  text-align: right; }
+
+/* //////////////////////////////////////// Pedido */
+#notaPaquete {
+  max-width: 760px;
+  margin-bottom: 20px; }
+
+#notaProducto {
+  max-width: 760px;
+  margin-bottom: 20px; }
+
+#pedido .tablaOrden table {
+  border: 1px solid black;
+  width: 720px;
+  table-layout: fixed; }
+  #pedido .tablaOrden table .tPresentacion {
+    width: 180px; }
+  #pedido .tablaOrden table .tCalidad {
+    width: 100px; }
+  #pedido .tablaOrden table .tCosto {
+    width: 160px; }
+  #pedido .tablaOrden table .tImporte {
+    width: 135px; }
+  #pedido .tablaOrden table .tTotal {
+    width: 135px; }
+  #pedido .tablaOrden table tr {
+    border: none !important; }
+    #pedido .tablaOrden table tr td {
+      padding: 10px 15px; }
+    #pedido .tablaOrden table tr th {
+      border: solid 1px black;
+      padding: 10px; }
+
+#pedido .firma {
+  width: 450px;
+  height: 20px;
+  display: inline-block;
+  float: left; }
+
+#pedido .tTotales {
+  width: 270px; }
+
+#pedido .tTable {
+  float: right;
+  display: inline-block; }
+
+#pedido .container {
+  margin: 0 auto; }
+
+#pedido .tablePedido {
+  margin: 0 auto;
+  width: 800px;
+  padding: 0px; }
+
+#pedido .tTotales table {
+  width: 100%;
+  table-layout: fixed; }
+  #pedido .tTotales table tr {
+    border: solid 1px black;
+    border-top: none; }
+    #pedido .tTotales table tr td {
+      border: solid 1px black;
+      padding: 10px 15px;
+      border-top: none; }
+    #pedido .tTotales table tr .tTotal {
+      width: 135px; }
+
+.pedidoHead h2 {
+  font-size: 16px;
+  color: #a1a1a1;
+  margin: 8px 0px; }
+  .pedidoHead h2 strong {
+    color: black; }
+
+.container_logo {
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0px !important;
+  padding: 20px; }
+
+.title_head {
+  display: block;
+  font-family: Poppins-Bold;
+  font-size: 39px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center; }
+
+/* //////////////////////////////////////// Wrap Contact */
+.wrap_contact {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 20px;
+  max-height: 900px;
+  height: 900px;
+  overflow: auto;
+  margin-top: 20px !important; }
+
+.wrap_product {
+  background: rgba(25, 35, 50, 0.1);
+  height: 900px;
+  margin-top: 20px;
+  overflow: scroll; }
+
+.wrap_orden {
+  height: 900px;
+  background: white;
+  margin-top: 20px;
+  overflow: scroll;
+  border-left: solid 1px black; }
+  .wrap_orden ul li {
+    font-size: 18px; }
+
+/* ---------------------- [ Paquetes ] -------- */
+.wrap_paquete img {
+  margin: 0 auto; }
+
+.wrap_paquete .card {
+  padding-top: 10px;
+  display: flow-root; }
+  .wrap_paquete .card .card-title {
+    border-bottom: 1px solid #61bee5; }
+    .wrap_paquete .card .card-title h1 {
+      font-size: 22px;
+      padding-top: 10px; }
+    .wrap_paquete .card .card-title item {
+      color: #61bee5; }
+  .wrap_paquete .card .collapsible {
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none; }
+    .wrap_paquete .card .collapsible .collapsible-body {
+      padding: 0px; }
+  .wrap_paquete .card .card-body table {
+    width: 100%; }
+    .wrap_paquete .card .card-body table tr {
+      border-bottom: solid 1px black; }
+    .wrap_paquete .card .card-body table td {
+      font-size: 12px;
+      padding: 2px 4px; }
+    .wrap_paquete .card .card-body table .td_presentacion {
+      width: 135px; }
+    .wrap_paquete .card .card-body table .td_kilos {
+      width: 45px; }
+    .wrap_paquete .card .card-body table .td_sacos {
+      width: 65px; }
+  .wrap_paquete .card .card-body .collapsible-header {
+    width: 100%;
+    background: #61bee5;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    display: block; }
+    .wrap_paquete .card .card-body .collapsible-header h2 {
+      font-size: 14px;
+      color: white; }
+
+.wrap_med {
+  height: auto !important;
+  margin-top: 0px !important;
+  border-radius: 0px !important; }
+
+.btnAddCar {
+  margin: 5px;
+  widith: 100%;
+  background: #61bee5;
+  color: white; }
+
+/* //////////////////////////////////////// Inputs */
+.table_producto {
+  background: white;
+  padding: 10px auto; }
+  .table_producto h2 {
+    font-size: 16px;
+    padding-top: 10px; }
+  .table_producto .table_head {
+    margin-bottom: 8px;
+    border-bottom: solid 4px;
+    padding: 4px 0px; }
+  .table_producto .table_body {
+    border-bottom: solid 1px;
+    padding: 4px 0px; }
+  .table_producto img {
+    max-width: 100%; }
+
+/* //////////////////////////////////////// Inputs */
+.wrap_count input {
+  font-size: 24px;
+  max-width: 70px;
+  text-align: center;
+  border: solid 1px black; }
+
+.wrap_count input[type=number]::-webkit-inner-spin-button,
+.wrap_count input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0; }
+
+.wrap_count i {
+  font-size: 30px; }
+
+.wrap_count_resumen i {
+  font-size: 18px;
+  padding-right: 5px; }
+
+.wrap-input {
+  width: 100%;
+  position: relative;
+  border-bottom: 2px solid #d9d9d9;
+  margin-bottom: 15px;
+  padding-bottom: 8px; }
+  .wrap-input input {
+    display: block;
+    width: 100%;
+    background: transparent;
+    font-family: Poppins-Medium;
+    font-size: 16px;
+    color: #333333;
+    line-height: 1.2;
+    padding: 0 5px; }
+    .wrap-input input::-webkit-input-placeholder {
+      color: #e3e3e3 !important; }
+    .wrap-input input:-ms-input-placeholder {
+      color: #e3e3e3 !important; }
+    .wrap-input input::-ms-input-placeholder {
+      color: #e3e3e3 !important; }
+    .wrap-input input::placeholder {
+      color: #e3e3e3 !important; }
+
+/* //////////////////////////////////////// Resumen */
+.titleResumne {
+  font-size: 20px;
+  border-bottom: 1px solid #61bee5;
+  margin-bottom: 10px;
+  padding-bottom: 10px; }
+
+.wrap_resumen_head {
+  border-bottom: solid 1px #61bee5;
+  margin-top: 10px;
+  margin-bottom: 20px; }
+  .wrap_resumen_head h2 {
+    font-size: 20px; }
+
+.wrap_resumen_body {
+  border-bottom: solid 1px #121212;
+  padding-top: 10px; }
+  .wrap_resumen_body h2 {
+    font-size: 18px; }
+
+.totalFixed {
+  background: #8d8d8d;
+  padding: 10px; }
+  .totalFixed h2 {
+    text-align: right;
+    font-size: 25px; }
+
+/* //////////////////////////////////////// Ordenes Tablas */
+.dataTables_scrollHead {
+  background: white !important;
+  padding: 10px; }
+
+.dataTables_scrollBody .odd {
+  border-bottom: solid 1px !important;
+  background: #eaeaea !important; }
+
+.dataTables_scrollBody .even {
+  border-bottom: solid 1px !important;
+  background: #fefefe !important; }
+
+.dataTables_filter label {
+  color: white; }
+
+.dataTables_filter input[type=search]:not(.browser-default) {
+  border-bottom: white 1px solid; }
+
+/* //////////////////////////////////////// Login */
+.login {
+  background: white;
+  margin-top: 50px;
+  padding: 40px !important; }
+  .login form {
+    text-align: left;
+    margin-top: 20px; }
+
+.modal {
+  width: 75%;
+  max-height: 80%; }
+
+/* //////////////////////////////////////// Carrito table */
+.contentConfirm .tablaOrden table {
+  border: 1px solid black;
+  max-width: 100px;
+  table-layout: fixed; }
+  .contentConfirm .tablaOrden table .tPresentacion {
+    width: 150px; }
+  .contentConfirm .tablaOrden table .tCalidad {
+    width: 100px; }
+  .contentConfirm .tablaOrden table .tCosto {
+    width: 150px; }
+  .contentConfirm .tablaOrden table .tImporte {
+    width: 150px; }
+  .contentConfirm .tablaOrden table .tTotal {
+    width: 150px; }
+  .contentConfirm .tablaOrden table tr td {
+    padding: 10px 15px; }
+  .contentConfirm .tablaOrden table tr th {
+    border: solid 1px black;
+    padding: 10px; }
+
+/* //////////////////////////////////////// Responsive -1100 */

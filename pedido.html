@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Nupec</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/generales.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+  <body style="background:white;">
+    <div class="row" style="margin:0px;">
+      <div class="row" style="margin:0px;">
+        <div class="row container_logo" style="background: white;">
+          <div class="col m12 center"><a href="home.html"><img src="images/NUPEC.png" style="width:200px;"></a><br></div>
+          <div class="col m6 offset-m1">
+            <h1 class="title_head left">Pedido</h1>
+          </div>
+          <div class="col m5" style="text-align:right;"><a class="btn" href="home.html">regresar</a></div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="pedido" style="margin: 40px auto;max-width: 760px;">
+      <div id="contPDF">
+        <div id="notaPaquete" v-if="paquetes[0].cantidad &gt; 0 || paquetes[1].cantidad &gt; 0 || paquetes[2].cantidad &gt; 0">
+          <div class="row" style=";background: white;margin:0 auto; ">
+            <div class="col m2"><img src="images/logo-nupec.png" style="width:140px;"><span class="title_head"></span></div>
+            <div class="col m6 center" style="text-align:center;padding-top:10px;">
+              <h2 style="margin:0px;font-size:25px;">Nota de venta</h2>
+            </div>
+            <div class="col m4" style="text-align:left;">
+              <p style="margin:0px;">Fecha: {{pedido.createdAt | fecha}} </p>
+              <p style="margin:0px;">Codigo: {{pedido.codigo}}</p>
+            </div>
+          </div>
+          <div class="row pedidoHead" style="margin:20px auto;">
+            <div class="col m12">
+              <h2> <strong>Nombre : </strong>{{usuario.nombre}} {{usuario.apellido_paterno}}</h2>
+              <h2> <strong>Direccion :  </strong>{{usuario.calle}} <strong>Numero : </strong>{{usuario.numero_int}} <strong>Ext. : </strong>{{usuario.numero_ext}} <strong>Colonia : </strong>{{usuario.colonia}}</h2>
+              <h2> <strong>CP :</strong>{{usuario.cp}}</h2>
+              <h2><strong>Estado : </strong>{{estado.name}} <strong>Municipio : </strong>{{municipio.name}}  </h2>
+              <h2><strong>Teléfono : </strong>{{usuario.telefono}} <strong>Email : </strong>{{usuario.email}}</h2>
+            </div>
+          </div>
+          <div class="row tablePedido tablaOrden">
+            <table>
+              <tr>
+                <th class="tPresentacion">Producto</th>
+                <th class="tCalidad">Cantidad</th>
+                <th class="tCosto">Costo unitario</th>
+                <th class="tImporte">Importe</th>
+                <th class="tTotal">Total</th>
+              </tr>
+              <tr v-for="item in paquetes" v-if="item.cantidad ">
+                <td>{{item.nombre}}</td>
+                <td>{{item.cantidad}}</td>
+                <td>${{item.costoUnitario}}</td>
+                <td>${{item.importe}}</td>
+                <td>${{item.total}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="row tablePedido">
+            <div class="firma"></div>
+            <div class="tTotales col" style="padding:0px;">
+              <table>
+                <tr>
+                  <td class="tTotal">Subtotal</td>
+                  <td class="tTotal"> $200</td>
+                </tr>
+                <tr>
+                  <td>Descuento</td>
+                  <td> $200</td>
+                </tr>
+                <tr>
+                  <td>Subtotal c/desc</td>
+                  <td> $200</td>
+                </tr>
+                <tr>
+                  <td>IVA</td>
+                  <td> $200</td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td> $200</td>
+                </tr>
+              </table>
+            </div>
+            <div class="col m12"></div>
+          </div>
+        </div>
+        <div id="notaProducto" v-if="productos.length &gt; 0">
+          <div class="row" style=";background: white;margin:0 auto; ">
+            <div class="col m3"><img src="images/NUPEC.png" style="width:140px;"><span class="title_head"></span></div>
+            <div class="col m6 center" style="text-align:center;padding-top:10px;">
+              <h2 style="margin:0px;font-size:25px;">Nota de venta</h2>
+            </div>
+            <div class="col m3" style="text-align:left;">
+              <p style="margin:0px;">Fecha: {{pedido.createdAt | fecha}} </p>
+              <p style="margin:0px;">Codigo: {{pedido.codigo}}</p>
+            </div>
+          </div>
+          <div class="row pedidoHead" style="margin:20px auto;">
+            <div class="col m12">
+              <h2> <strong>Nombre : </strong>{{usuario.nombre}} {{usuario.apellido_paterno}}</h2>
+              <h2> <strong>Direccion :  </strong>{{usuario.calle}} <strong>Numero : </strong>{{usuario.numero_int}} <strong>Ext. : </strong>{{usuario.numero_ext}} <strong>Colonia : </strong>{{usuario.colonia}}</h2>
+              <h2> <strong>CP :</strong>{{usuario.cp}}</h2>
+              <h2><strong>Estado : </strong>{{estado.name}} <strong>Municipio : </strong>{{municipio.name}}  </h2>
+              <h2><strong>Teléfono : </strong>{{usuario.telefono}} <strong>Email : </strong>{{usuario.email}}</h2>
+            </div>
+          </div>
+          <div class="row tablePedido tablaOrden">
+            <table>
+              <tr>
+                <th class="tPresentacion">Producto</th>
+                <th class="tCalidad">Cantidad</th>
+                <th class="tCosto">Costo unitario</th>
+                <th class="tImporte">Importe</th>
+                <th class="tTotal">Total</th>
+              </tr>
+              <tr v-for="item in productos">
+                <td>{{item.marca}} {{item.nombre}} {{item.kilos}}Kg</td>
+                <td>{{item.cantidad}}</td>
+                <td>${{item.costoUnitario}}</td>
+                <td>${{item.importe}}</td>
+                <td>${{item.total}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="row tablePedido">
+            <div class="firma"></div>
+            <div class="tTotales col" style="padding:0px;">
+              <table>
+                <tr>
+                  <td class="tTotal">Subtotal</td>
+                  <td class="tTotal"> ${{productosTotales.subtotal}}</td>
+                </tr>
+                <tr>
+                  <td>Descuento</td>
+                  <td> {{productosTotales.descuento}}%</td>
+                </tr>
+                <tr>
+                  <td>Subtotal c/desc</td>
+                  <td> ${{productosTotales.subCDescuento}}</td>
+                </tr>
+                <tr>
+                  <td>IVA</td>
+                  <td> ${{productosTotales.iva | moneda}}</td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td> ${{productosTotales.total | moneda}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col m12"><a href="#" v-on:click.prevent="htmltoPdf()">Descargar PDF</a></div>
+    </div><br><br><br><br>
+    <script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="vendor/daterangepicker/moment.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/html2canvas.js"></script>
+    <script src="js/jspdf.debug.js"></script>
+    <script>
+      var urlApi = "https://4ef44ec2.ngrok.io";
+      function getParameter(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+          return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+      var prodId = getParameter('idPedido');
+      
+      var pedido = new Vue({
+        el: '#pedido',
+        data: {
+          pedido:[],
+          usuario: [],
+          estado: [],
+          municipio: [],
+          productos: [],
+          paquetes: [],
+          productosTotales: [],
+        },
+        methods: {
+          
+          htmltoPdf (){
+            html2canvas(document.getElementById("contPDF"), {
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL('image/png');
+                var doc = new jsPDF('p', 'mm', [297, 210]); //210mm wide and 297mm high
+                doc.addImage(imgData, 'PNG', 10, 10);
+                doc.save('sample.pdf');
+            }
+            });
+          }
+        },
+        mounted () {
+          axios.get(urlApi+'/api/v1/orden/'+prodId).then((response) => {
+            this.pedido = response.data
+            this.usuario = response.data.usuario_id
+            this.estado = response.data.usuario_id.estado_id
+            this.municipio = response.data.usuario_id.municipio_id
+            this.productos = response.data.productos
+            this.paquetes = response.data.paquetes
+            console.log(this.paquetes)
+            this.productos = this.productos.map(function(item) {
+              let costoUnitario = Math.round(item.precio*Math.pow(10,2))/Math.pow(10,2);
+              let importe = item.cantidad * item.precio;
+              let iva = importe * 0.16;
+              iva = Math.round(iva*Math.pow(10,2))/Math.pow(10,2);
+              let total = iva + importe;
+              total = Math.round(total*Math.pow(10,2))/Math.pow(10,2);
+              
+              let totalDescuento = total * (1-item.descuento/100);
+              totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
+              return {
+                id: item.id,
+                cantidad: item.cantidad,
+                nombre: item.nombre,
+                marca: item.marca,
+                costoUnitario,
+                importe,
+                iva,
+                total,
+                kilos: item.kilos,
+                kilosTotal: item.kilos*item.cantidad,
+                
+                totalDescuento
+              }
+            });
+            this.paquetes = this.paquetes.map(function(item) {
+              let costoUnitario = Math.round(item.precios.unitario*Math.pow(10,2))/Math.pow(10,2);
+              let importe = item.cantidad * item.precios.unitario;
+              importe = Math.round(importe*Math.pow(10,2))/Math.pow(10,2);
+              let iva = importe * 0.16;
+              iva = Math.round(iva*Math.pow(10,2))/Math.pow(10,2);
+              let total = iva + importe;
+              total = Math.round(total*Math.pow(10,1))/Math.pow(10,1);
+              
+              let totalDescuento = total * (1-item.descuento/100);
+              totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
+              return {
+                id: item.id,
+                cantidad: item.cantidad,
+                nombre: item.nombre,
+                costoUnitario,
+                importe,
+                iva,
+                total,
+                kilosTotales: item.kilos*item.cantidad,
+                
+                totalDescuento
+              }
+            });
+            var total = this.productos.reduce(function (previous, current) {
+                return previous + current.importe;
+            }, 0);
+            this.productosTotales.subtotal = total;
+            this.productosTotales.descuento = 10;
+            this.productosTotales.subCDescuento = .9 * total;
+            this.productosTotales.subCDescuento = Math.round(this.productosTotales.subCDescuento*Math.pow(10,2))/Math.pow(10,2)
+            this.productosTotales.iva = this.productosTotales.subCDescuento * .16;
+            this.productosTotales.iva = Math.round(this.productosTotales.iva *Math.pow(10,2))/Math.pow(10,2)
+            this.productosTotales.total = this.productosTotales.subCDescuento + this.productosTotales.iva;
+            this.productosTotales.total = Math.round(this.productosTotales.total*Math.pow(10,2))/Math.pow(10,2);
+      
+          })
+          .catch((e) => {
+            console.error(e)
+          })
+        },
+        filters:{
+        fecha: function(value){
+          return moment(value).format("DD/MM/YYYY")
+        },
+        moneda: function(value){
+        return parseInt(value).toLocaleString()
+      
+        }
+          
+        }, 
+        
+      });
+    </script>
+  </body>
+</html>

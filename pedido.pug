@@ -1,0 +1,312 @@
+doctype html
+html(lang="en")
+  head
+    title Nupec
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" type="text/css" href="css/materialize.min.css")
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+    link(rel="stylesheet" type="text/css" href="css/generales.css")
+    link(rel="stylesheet" type="text/css" href="css/style.css") 
+  body(style="background:white;")
+    .row(style="margin:0px;")
+      .row(style="margin:0px;")
+        .row.container_logo(style="background: white;")
+          .col.m12.center
+            a(href="home.html")
+              img(src="images/NUPEC.png" style="width:200px;")
+            br
+          .col.m6.offset-m1
+              h1.title_head.left Pedido
+          .col.m5(style="text-align:right;")
+            a.btn(href="home.html") regresar
+          
+    .row#pedido(style="margin: 40px auto;max-width: 760px;")
+      #contPDF
+        #notaPaquete(v-if="paquetes[0].cantidad > 0 || paquetes[1].cantidad > 0 || paquetes[2].cantidad > 0")
+          .row(style=";background: white;margin:0 auto; ")
+            .col.m2(style="")
+              img(src="images/logo-nupec.png" style="width:140px;")
+              span.title_head
+            .col.m6.center(style="text-align:center;padding-top:10px;")
+              h2(style="margin:0px;font-size:25px;") Nota de venta
+            .col.m4(style="text-align:left;")
+              p(style="margin:0px;") Fecha: {{pedido.createdAt | fecha}} 
+              p(style="margin:0px;") Codigo: {{pedido.codigo}}
+          .row.pedidoHead(style="margin:20px auto;")
+            .col.m12
+              h2 
+                strong Nombre : 
+                | {{usuario.nombre}} {{usuario.apellido_paterno}}
+              h2 
+                strong Direccion :  
+                | {{usuario.calle}} 
+                strong Numero : 
+                | {{usuario.numero_int}} 
+                strong Ext. : 
+                | {{usuario.numero_ext}} 
+                strong Colonia : 
+                | {{usuario.colonia}}
+              h2  
+                strong CP :
+                | {{usuario.cp}}
+              h2
+                strong Estado : 
+                | {{estado.name}} 
+                strong Municipio : 
+                | {{municipio.name}}  
+              h2
+                strong Teléfono : 
+                | {{usuario.telefono}} 
+            
+                strong Email : 
+                | {{usuario.email}}
+          .row.tablePedido.tablaOrden
+            table
+              tr
+                th.tPresentacion Producto
+                th.tCalidad Cantidad
+                th.tCosto Costo unitario
+                th.tImporte Importe
+                th.tTotal Total
+              tr(v-for="item in paquetes" v-if="item.cantidad ")
+                td {{item.nombre}}
+                td {{item.cantidad}}
+                td ${{item.costoUnitario}}
+                td ${{item.importe}}
+                td ${{item.total}}
+          .row.tablePedido
+            .firma(style="")
+            .tTotales.col(style="padding:0px;")
+              table
+                tr
+                  td.tTotal Subtotal
+                  td.tTotal  $200
+                tr
+                  td Descuento
+                  td  $200
+                tr
+                  td Subtotal c/desc
+                  td  $200
+                tr
+                  td IVA
+                  td  $200
+                tr
+                  td Total
+                  td  $200
+
+
+            .col.m12
+          
+        //- {{{{{{{{{{{{{{{{{{{  Productos
+        #notaProducto(v-if="productos.length > 0")
+          .row(style=";background: white;margin:0 auto; ")
+            .col.m3(style="")
+              img(src="images/NUPEC.png" style="width:140px;")
+              span.title_head
+            .col.m6.center(style="text-align:center;padding-top:10px;")
+              h2(style="margin:0px;font-size:25px;") Nota de venta
+            .col.m3(style="text-align:left;")
+              p(style="margin:0px;") Fecha: {{pedido.createdAt | fecha}} 
+              p(style="margin:0px;") Codigo: {{pedido.codigo}}
+          .row.pedidoHead(style="margin:20px auto;")
+            .col.m12
+              h2 
+                strong Nombre : 
+                | {{usuario.nombre}} {{usuario.apellido_paterno}}
+              h2 
+                strong Direccion :  
+                | {{usuario.calle}} 
+                strong Numero : 
+                | {{usuario.numero_int}} 
+                strong Ext. : 
+                | {{usuario.numero_ext}} 
+                strong Colonia : 
+                | {{usuario.colonia}}
+              h2  
+                strong CP :
+                | {{usuario.cp}}
+              h2
+                strong Estado : 
+                | {{estado.name}} 
+                strong Municipio : 
+                | {{municipio.name}}  
+              h2
+                strong Teléfono : 
+                | {{usuario.telefono}} 
+            
+                strong Email : 
+                | {{usuario.email}}
+          .row.tablePedido.tablaOrden
+            table
+              tr
+                th.tPresentacion Producto
+                th.tCalidad Cantidad
+                th.tCosto Costo unitario
+                th.tImporte Importe
+                th.tTotal Total
+              tr(v-for="item in productos")
+                td {{item.marca}} {{item.nombre}} {{item.kilos}}Kg
+                td {{item.cantidad}}
+                td ${{item.costoUnitario}}
+                td ${{item.importe}}
+                td ${{item.total}}
+          .row.tablePedido
+            .firma(style="")
+            .tTotales.col(style="padding:0px;")
+              table
+                tr
+                  td.tTotal Subtotal
+                  td.tTotal  ${{productosTotales.subtotal}}
+                tr
+                  td Descuento
+                  td  {{productosTotales.descuento}}%
+                tr
+                  td Subtotal c/desc
+                  td  ${{productosTotales.subCDescuento}}
+                tr
+                  td IVA
+                  td  ${{productosTotales.iva | moneda}}
+                tr
+                  td Total
+                  td  ${{productosTotales.total | moneda}}
+
+      .col.m12
+        a(href="#" v-on:click.prevent="htmltoPdf()") Descargar PDF
+        
+    br
+    br
+    br
+    br
+    script(src="vendor/jquery/jquery-3.2.1.min.js")
+    script(src="js/materialize.min.js")
+    script(src="vendor/daterangepicker/moment.min.js")
+    script(src="js/vue.js")
+    script(src="js/axios.min.js")
+    script(src="js/main.js")
+    script(src="js/html2canvas.js")
+    script(src="js/jspdf.debug.js")
+    script.
+      var urlApi = "https://4ef44ec2.ngrok.io";
+      function getParameter(name) {
+          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+          return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+      }
+      var prodId = getParameter('idPedido');
+      
+      var pedido = new Vue({
+        el: '#pedido',
+        data: {
+          pedido:[],
+          usuario: [],
+          estado: [],
+          municipio: [],
+          productos: [],
+          paquetes: [],
+          productosTotales: [],
+        },
+        methods: {
+          
+          htmltoPdf (){
+            html2canvas(document.getElementById("contPDF"), {
+              onrendered: function(canvas) {
+                var imgData = canvas.toDataURL('image/png');
+                var doc = new jsPDF('p', 'mm', [297, 210]); //210mm wide and 297mm high
+                doc.addImage(imgData, 'PNG', 10, 10);
+                doc.save('sample.pdf');
+            }
+            });
+          }
+        },
+        mounted () {
+          axios.get(urlApi+'/api/v1/orden/'+prodId).then((response) => {
+            this.pedido = response.data
+            this.usuario = response.data.usuario_id
+            this.estado = response.data.usuario_id.estado_id
+            this.municipio = response.data.usuario_id.municipio_id
+            this.productos = response.data.productos
+            this.paquetes = response.data.paquetes
+            console.log(this.paquetes)
+            this.productos = this.productos.map(function(item) {
+              let costoUnitario = Math.round(item.precio*Math.pow(10,2))/Math.pow(10,2);
+              let importe = item.cantidad * item.precio;
+              let iva = importe * 0.16;
+              iva = Math.round(iva*Math.pow(10,2))/Math.pow(10,2);
+              let total = iva + importe;
+              total = Math.round(total*Math.pow(10,2))/Math.pow(10,2);
+              
+              let totalDescuento = total * (1-item.descuento/100);
+              totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
+              return {
+                id: item.id,
+                cantidad: item.cantidad,
+                nombre: item.nombre,
+                marca: item.marca,
+                costoUnitario,
+                importe,
+                iva,
+                total,
+                kilos: item.kilos,
+                kilosTotal: item.kilos*item.cantidad,
+                
+                totalDescuento
+              }
+            });
+            this.paquetes = this.paquetes.map(function(item) {
+              let costoUnitario = Math.round(item.precios.unitario*Math.pow(10,2))/Math.pow(10,2);
+              let importe = item.cantidad * item.precios.unitario;
+              importe = Math.round(importe*Math.pow(10,2))/Math.pow(10,2);
+              let iva = importe * 0.16;
+              iva = Math.round(iva*Math.pow(10,2))/Math.pow(10,2);
+              let total = iva + importe;
+              total = Math.round(total*Math.pow(10,1))/Math.pow(10,1);
+              
+              let totalDescuento = total * (1-item.descuento/100);
+              totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
+              return {
+                id: item.id,
+                cantidad: item.cantidad,
+                nombre: item.nombre,
+                costoUnitario,
+                importe,
+                iva,
+                total,
+                kilosTotales: item.kilos*item.cantidad,
+                
+                totalDescuento
+              }
+            });
+            var total = this.productos.reduce(function (previous, current) {
+                return previous + current.importe;
+            }, 0);
+            this.productosTotales.subtotal = total;
+            this.productosTotales.descuento = 10;
+            this.productosTotales.subCDescuento = .9 * total;
+            this.productosTotales.subCDescuento = Math.round(this.productosTotales.subCDescuento*Math.pow(10,2))/Math.pow(10,2)
+            this.productosTotales.iva = this.productosTotales.subCDescuento * .16;
+            this.productosTotales.iva = Math.round(this.productosTotales.iva *Math.pow(10,2))/Math.pow(10,2)
+            this.productosTotales.total = this.productosTotales.subCDescuento + this.productosTotales.iva;
+            this.productosTotales.total = Math.round(this.productosTotales.total*Math.pow(10,2))/Math.pow(10,2);
+
+          })
+          .catch((e) => {
+            console.error(e)
+          })
+        },
+        filters:{
+        fecha: function(value){
+          return moment(value).format("DD/MM/YYYY")
+        },
+        moneda: function(value){
+        return parseInt(value).toLocaleString()
+
+        }
+          
+        }, 
+        
+      });
+
+
+

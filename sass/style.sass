@@ -1,0 +1,311 @@
+
+/* //////////////////////////////////////// Colores*/
+$color-azul: #61bee5
+
+.backgroundRed
+  background: red
+.backgroundGreen
+  background: green
+/* //////////////////////////////////////// Pedido */
+.textARight
+  text-align: right
+/* //////////////////////////////////////// Pedido */
+#notaPaquete
+  max-width: 760px
+  margin-bottom: 20px
+#notaProducto
+  max-width: 760px
+  margin-bottom: 20px
+#pedido
+  .tablaOrden
+    table
+      border: 1px solid black
+      width: 720px
+      table-layout: fixed
+      .tPresentacion 
+        width: 180px
+      .tCalidad 
+        width: 100px
+      .tCosto 
+        width: 160px
+      .tImporte 
+        width: 135px
+      .tTotal
+        width: 135px
+      tr 
+        border: none!important
+        td 
+          padding: 10px 15px
+          
+        th
+          border: solid 1px black
+          padding: 10px
+  .firma
+    width: 450px
+    height: 20px
+    display: inline-block
+    float: left
+  .tTotales
+    width: 270px
+  .tTable
+    float: right
+    display: inline-block
+  .container
+    margin: 0 auto
+  .tablePedido
+    margin: 0 auto
+    width: 800px
+    padding: 0px
+  .tTotales
+    table 
+      width: 100%
+      table-layout: fixed
+      tr
+        border: solid 1px black
+        border-top: none
+        td
+          border: solid 1px black
+          padding: 10px 15px
+          border-top: none
+        .tTotal
+          width: 135px
+      
+.pedidoHead
+  h2 
+    font-size: 16px
+    color: #a1a1a1
+    margin: 8px 0px
+    strong 
+      color: black
+.container_logo
+  // width: 1200px
+  justify-content: center
+  margin: 0px!important
+  padding: 20px
+
+.title_head
+  display: block
+  font-family: Poppins-Bold
+  font-size: 39px
+  color: #333333
+  line-height: 1.2
+  text-align: center
+
+/* //////////////////////////////////////// Wrap Contact */
+
+.wrap_contact
+  background: #fff
+  border-radius: 10px
+  overflow: hidden
+  padding: 20px
+  max-height: 900px
+  height: 900px
+  overflow: auto
+  margin-top: 20px!important
+.wrap_product
+  background: rgba(25,35,50, .1)
+  height: 900px
+  margin-top: 20px
+  overflow: scroll
+.wrap_orden
+  height: 900px
+  background: white
+  margin-top: 20px
+  overflow: scroll
+  border-left: solid 1px black
+  ul 
+    li
+      font-size: 18px
+
+/* ---------------------- [ Paquetes ] -------- */
+
+.wrap_paquete
+  img
+    margin: 0 auto
+  .card
+    padding-top: 10px
+    display: flow-root
+    .card-title
+      border-bottom: 1px solid $color-azul
+      h1
+        font-size: 22px
+        padding-top: 10px
+      item 
+        color: $color-azul
+    .collapsible
+      border: none
+      box-shadow: none
+      .collapsible-body
+        padding: 0px
+    .card-body
+      table 
+        width: 100%
+        tr
+          border-bottom: solid 1px black
+        td 
+          font-size: 12px
+    
+          padding: 2px 4px 
+        .td_presentacion
+          width: 135px
+        .td_kilos
+          width: 45px
+        .td_sacos
+          width: 65px
+      .collapsible-header
+        width: 100%
+        background: $color-azul
+        text-align: center
+        padding: 5px
+        border-radius: 5px
+        display: block
+        h2
+          font-size: 14px
+          color: white
+
+.wrap_med
+  height: auto!important
+  margin-top: 0px!important
+  border-radius: 0px!important
+
+.btnAddCar
+  margin: 5px
+  widith: 100%
+  background: $color-azul
+  color: white
+/* //////////////////////////////////////// Inputs */
+.table_producto
+  background: white
+  padding: 10px auto
+  h2
+    font-size: 16px
+    padding-top: 10px
+  .table_head
+    margin-bottom: 8px
+    border-bottom: solid 4px
+    padding: 4px 0px
+  .table_body
+    border-bottom: solid 1px 
+    padding: 4px 0px
+  img 
+    max-width: 100%
+
+/* //////////////////////////////////////// Inputs */
+
+.wrap_count
+  input
+    font-size: 24px
+    max-width: 70px
+    text-align: center
+    border: solid 1px black
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button 
+    -webkit-appearance: none
+    margin: 0
+
+
+  input[type=number]
+    -moz-appearance:textfield
+  i 
+    font-size: 30px
+.wrap_count_resumen
+  i
+    font-size: 18px
+    padding-right: 5px
+.wrap-input
+  width: 100%
+  position: relative
+  border-bottom: 2px solid #d9d9d9
+  margin-bottom: 15px
+  padding-bottom: 8px
+  input
+    display: block
+    width: 100%
+    background: transparent
+    font-family: Poppins-Medium
+    font-size: 16px
+    color: #333333
+    line-height: 1.2
+    padding: 0 5px
+    &::placeholder
+      color: #e3e3e3!important
+
+/* //////////////////////////////////////// Resumen */
+.titleResumne
+  font-size: 20px
+  border-bottom: 1px solid #61bee5
+  margin-bottom: 10px
+  padding-bottom: 10px
+.wrap_resumen_head
+  border-bottom: solid 1px $color-azul
+  margin-top: 10px
+  margin-bottom: 20px
+  h2
+    font-size: 20px
+.wrap_resumen_body
+  border-bottom: solid 1px #121212
+  padding-top: 10px
+  h2 
+    font-size: 18px
+.totalFixed
+  background: #8d8d8d
+  padding: 10px
+  h2
+    text-align: right 
+    font-size: 25px
+
+
+/* //////////////////////////////////////// Ordenes Tablas */
+.dataTables_scrollHead
+  background: white!important
+  padding: 10px
+.dataTables_scrollBody
+  
+  .odd 
+    border-bottom: solid 1px!important
+    background: #eaeaea!important
+  .even
+    border-bottom: solid 1px!important
+    background: #fefefe!important
+.dataTables_filter
+  label 
+    color: white
+  input[type=search]:not(.browser-default)
+    border-bottom: white 1px solid
+/* //////////////////////////////////////// Login */
+.login
+  background: white
+  margin-top: 50px
+  padding: 40px!important
+  form
+    text-align: left
+    margin-top: 20px
+.modal
+  width: 75%
+  max-height: 80%
+/* //////////////////////////////////////// Carrito table */
+.contentConfirm
+  .tablaOrden
+    table
+      border: 1px solid black
+      max-width: 100px
+      table-layout: fixed
+      .tPresentacion 
+        width: 150px
+      .tCalidad 
+        width: 100px
+      .tCosto 
+        width: 150px
+      .tImporte 
+        width: 150px
+      .tTotal
+        width: 150px
+      tr 
+        td 
+          padding: 10px 15px
+          
+        th
+          border: solid 1px black
+          padding: 10px
+/* //////////////////////////////////////// Responsive -1100 */
+
