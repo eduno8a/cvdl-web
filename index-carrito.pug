@@ -182,6 +182,7 @@ html(lang="en")
             select.browser-default(v-model="distribuidor_su")
               option(selected='' value='') Proveedor 
               option(v-for="distribuidor in distribuidores_su", v-bind:value="distribuidor.id") {{distribuidor.contacto}}
+              option(value='258') Otro
             br
           .row.wrap_resumen_head()
             .col.m4
@@ -216,6 +217,7 @@ html(lang="en")
             select.browser-default(v-model="distribuidor_se")
               option(selected='' value='') Proveedor 
               option(v-for="distribuidor in distribuidores_se", v-bind:value="distribuidor.id") {{distribuidor.contacto}}
+              option(value='258') Otro
           .row.wrap_resumen_head
             .col.m4
               h2 Nombre

@@ -180,6 +180,7 @@
             <select class="browser-default" v-model="distribuidor_su">
               <option selected="" value="">Proveedor </option>
               <option v-for="distribuidor in distribuidores_su" v-bind:value="distribuidor.id">{{distribuidor.contacto}}</option>
+              <option value="258">Otro</option>
             </select><br>
           </div>
           <div class="row wrap_resumen_head">
@@ -221,6 +222,7 @@
             <select class="browser-default" v-model="distribuidor_se">
               <option selected="" value="">Proveedor </option>
               <option v-for="distribuidor in distribuidores_se" v-bind:value="distribuidor.id">{{distribuidor.contacto}}</option>
+              <option value="258">Otro</option>
             </select>
           </div>
           <div class="row wrap_resumen_head">
