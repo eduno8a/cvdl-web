@@ -55,13 +55,14 @@ html(lang="en")
               input(type="text" name="calle" placeholder="Av. Pirineos" v-model="calle")
               span.focus-input
             .wrap-input.validate-input.col.m3.s6(v-bind:class="")
-              span No. Int. *
-              input(type="text" name="num_interior" placeholder="10" v-model="noInterior")
-              span.focus-input
-            .wrap-input.validate-input.col.m3.s6(v-bind:class="")
               span No. Ext.
               input(type="text" name="num_exterior" placeholder="20" v-model="noExterior")
               span.focus-input
+            .wrap-input.validate-input.col.m3.s6(v-bind:class="")
+              span No. Int. *
+              input(type="text" name="num_interior" placeholder="10" v-model="noInterior")
+              span.focus-input
+            
             .wrap-input.validate-input.col.m6.s6(v-bind:class="")
               span CP *
               input(type="number" name="codigo_postal" placeholder="76000" v-model="codigoPostal", min=1, max=5)
@@ -159,7 +160,7 @@ html(lang="en")
               document.getElementById("correoR").focus();
               return
             }
-            if(this.nombre == ''  || this.apellidos == '' || this.calle == '' || this.noInterior == '' || this.colonia == '' || this.codigoPostal == '' || this.estado == '' || this.municipio == '' || this.telefono == '' || this.correo == '' ){
+            if(this.nombre == ''  || this.apellidos == '' || this.calle == '' || this.noExterior == '' || this.colonia == '' || this.codigoPostal == '' || this.estado == '' || this.municipio == '' || this.telefono == '' || this.correo == '' ){
               M.toast({html: 'Los campos con asterisco son obligatorios'})
               return
             }

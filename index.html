@@ -45,11 +45,11 @@
             <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>Calle *</span>
               <input type="text" name="calle" placeholder="Av. Pirineos" v-model="calle"><span class="focus-input"></span>
             </div>
-            <div class="wrap-input validate-input col m3 s6" v-bind:class=""><span>No. Int. *</span>
-              <input type="text" name="num_interior" placeholder="10" v-model="noInterior"><span class="focus-input"></span>
-            </div>
             <div class="wrap-input validate-input col m3 s6" v-bind:class=""><span>No. Ext.</span>
               <input type="text" name="num_exterior" placeholder="20" v-model="noExterior"><span class="focus-input"></span>
+            </div>
+            <div class="wrap-input validate-input col m3 s6" v-bind:class=""><span>No. Int. *</span>
+              <input type="text" name="num_interior" placeholder="10" v-model="noInterior"><span class="focus-input"></span>
             </div>
             <div class="wrap-input validate-input col m6 s6" v-bind:class=""><span>CP *</span>
               <input type="number" name="codigo_postal" placeholder="76000" v-model="codigoPostal" min="1" max="5"><span class="focus-input"></span>
@@ -143,7 +143,7 @@
               document.getElementById("correoR").focus();
               return
             }
-            if(this.nombre == ''  || this.apellidos == '' || this.calle == '' || this.noInterior == '' || this.colonia == '' || this.codigoPostal == '' || this.estado == '' || this.municipio == '' || this.telefono == '' || this.correo == '' ){
+            if(this.nombre == ''  || this.apellidos == '' || this.calle == '' || this.noExterior == '' || this.colonia == '' || this.codigoPostal == '' || this.estado == '' || this.municipio == '' || this.telefono == '' || this.correo == '' ){
               M.toast({html: 'Los campos con asterisco son obligatorios'})
               return
             }
