@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="wrap_product animated col m8"> 
-        <h1 class="title_head" style="color:white;">Paquetes</h1><br>
+        <h1 class="title_head" style="color:white;">NUPEC</h1><br>
         <div class="row wrap_paquete" id="accordionExample">
           <div class="col m4 s12" style="text-align:center;" v-for="(item, index) in paquetes">
             <div class="card"><img class="card-img-top" style="width:100%;" v-bind:src="'images/paquete'+item.id+'.png'" alt="Card image cap">
@@ -84,7 +84,7 @@
             </div>
           </div>
         </div><br>
-        <h1 class="title_head" style="color:white;">Linea selecta  </h1>
+        <h1 class="title_head" style="color:white;">Línea selecta  </h1>
         <div class="row table_producto" v-for="(categoria, index) in categorias">
           <div class="col m11 offset-m1"><br>
             <div class="row table_head" v-bind:style="{borderColor: categoria.color}">
@@ -140,7 +140,7 @@
         <h1 class="title_head" style="border-bottom: 1px solid #61bee5;margin-bottom:10px;">Resumen</h1>
         <div class="row" v-if="carritoPaquetes.length &gt; 0">
           <div class="col s12">
-            <h1 class="titleResumne">Paquetes </h1>
+            <h1 class="titleResumne">NUPEC </h1>
           </div>
           <div class="col m12" v-bind:class="" v-if="totalPaquete &gt; 0">
             <select class="browser-default" v-model="distribuidor_su">

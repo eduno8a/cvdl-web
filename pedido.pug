@@ -24,7 +24,7 @@ html(lang="en")
     .row#pedido(style="margin: 40px auto;max-width: 760px;")
       #contPDF
         #notaPaquete(v-if="paquetes[0].cantidad > 0 || paquetes[1].cantidad > 0 || paquetes[2].cantidad > 0")
-          .row(style=";background: white;margin:0 auto; ")
+          .row(style="margin:0 auto; ")
             .col.m2(style="")
               img(src="images/logo-nupec.png" style="width:140px;")
               span.title_head
@@ -81,26 +81,26 @@ html(lang="en")
               table
                 tr
                   td.tTotal Subtotal
-                  td.tTotal  $200
+                  td.tTotal  ${{paquetesTotales.subtotal}}
                 tr
                   td Descuento
-                  td  $200
+                  td  {{paquetesTotales.descuento}}
                 tr
                   td Subtotal c/desc
-                  td  $200
+                  td  ${{paquetesTotales.subCDescuento}}
                 tr
                   td IVA
-                  td  $200
+                  td  ${{paquetesTotales.iva}}
                 tr
                   td Total
-                  td  $200
+                  td  ${{paquetesTotales.total | moneda}}
 
 
             .col.m12
           
         //- {{{{{{{{{{{{{{{{{{{  Productos
         #notaProducto(v-if="productos.length > 0")
-          .row(style=";background: white;margin:0 auto; ")
+          .row(style="margin:0 auto; ")
             .col.m3(style="")
               img(src="images/NUPEC.png" style="width:140px;")
               span.title_head
@@ -206,22 +206,28 @@ html(lang="en")
           productos: [],
           paquetes: [],
           productosTotales: [],
+          paquetesTotales: [],
         },
         methods: {
           
           htmltoPdf (){
+            var heightCont = $("body").height() - 133;
+            console.log("--"+heightCont)
             html2canvas(document.getElementById("contPDF"), {
               onrendered: function(canvas) {
+                var context = canvas.getContext("2d");
+                context.scale(1,2);
+
                 var imgData = canvas.toDataURL('image/png');
-                var doc = new jsPDF('p', 'mm', [297, 210]); //210mm wide and 297mm high
+                var doc = new jsPDF('p', 'mm', [220, heightCont]); //210mm wide and 297mm high
                 doc.addImage(imgData, 'PNG', 10, 10);
-                doc.addPage();
                 doc.save('pedido.pdf');
             }
             });
           }
         },
         mounted () {
+          
           axios.get(urlApi+'/api/v1/orden/'+prodId).then((response) => {
             this.pedido = response.data
             this.usuario = response.data.usuario_id
@@ -229,7 +235,7 @@ html(lang="en")
             this.municipio = response.data.usuario_id.municipio_id
             this.productos = response.data.productos
             this.paquetes = response.data.paquetes
-            console.log(this.paquetes)
+           
             this.productos = this.productos.map(function(item) {
               let costoUnitario = Math.round(item.precio*Math.pow(10,2))/Math.pow(10,2);
               let importe = item.cantidad * item.precio;
@@ -255,36 +261,6 @@ html(lang="en")
                 totalDescuento
               }
             });
-            this.paquetes = this.paquetes.map(function(item) {
-              
-              let costoUnitario = item.precios.unitario * .84;
-              costoUnitario = Math.round(costoUnitario*Math.pow(10,2))/Math.pow(10,2);
-
-              let importe = item.cantidad * costoUnitario;
-              importe = Math.round(importe*Math.pow(10,2))/Math.pow(10,2);
-
-              
-              let total = costoUnitario * item.cantidad;
-              total = Math.round(total*Math.pow(10,1))/Math.pow(10,1);
-              
-              let totalDescuento = total * (1-item.descuento/100);
-              totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
-              let iva = total * .16;
-              iva = Math.round(iva*Math.pow(10,1))/Math.pow(10,1);
-
-              return {
-                id: item.id,
-                cantidad: item.cantidad,
-                nombre: item.nombre,
-                costoUnitario,
-                importe,
-                iva,
-                total,
-                kilosTotales: item.kilos*item.cantidad,
-                
-                totalDescuento
-              }
-            });
             var total = this.productos.reduce(function (previous, current) {
                 return previous + current.importe;
             }, 0);
@@ -296,19 +272,73 @@ html(lang="en")
             this.productosTotales.iva = Math.round(this.productosTotales.iva *Math.pow(10,2))/Math.pow(10,2)
             this.productosTotales.total = this.productosTotales.subCDescuento + this.productosTotales.iva;
             this.productosTotales.total = Math.round(this.productosTotales.total*Math.pow(10,2))/Math.pow(10,2);
+            
+            this.paquetes = this.paquetes.map(function(item) {
+              console.log(item)
+              let costoUnitario = item.precios.unitario / 1.16;
+              costoUnitario = Math.round(costoUnitario*Math.pow(10,2))/Math.pow(10,2);
+
+              let importe = item.cantidad * costoUnitario;
+              importe = Math.round(importe*Math.pow(10,2))/Math.pow(10,2);
+
+              let descuento = (item.precios.unitarios * item.cantidad ) * (1-item.descuento/100);
+              descuento = Math.round(descuento*Math.pow(10,1))/Math.pow(10,1);
+
+              let total = item.precios.unitario * item.cantidad;
+              total = Math.round(total*Math.pow(10,1))/Math.pow(10,1);
+              
+              let totalDescuento = total * (item.descuento/100);
+              totalDescuento = Math.round(totalDescuento*Math.pow(10,1))/Math.pow(10,1);
+             
+              let iva = total * .16;
+              iva = Math.round(iva*Math.pow(10,1))/Math.pow(10,1);
+
+              return {
+                id: item.id,
+                cantidad: item.cantidad,
+                nombre: item.nombre,
+                costoUnitario,
+                importe,
+                iva,
+                total,
+                descuento,
+                kilosTotales: item.kilos*item.cantidad,
+                
+                totalDescuento
+              }
+            });
+            var totalPaquetes = this.paquetes.reduce(function (previous, current) {
+                return previous + current.importe;
+            }, 0);
+            var totalDescuentoPaquetes = this.paquetes.reduce(function (previous, current) {
+                return previous + current.totalDescuento;
+            }, 0);
+            var totalPCI = this.paquetes.reduce(function (previous, current) {
+                return previous + current.total;
+            }, 0);
+            this.paquetesTotales.subtotal = totalPaquetes;
+            this.paquetesTotales.subtotal = Math.round(this.paquetesTotales.subtotal*Math.pow(10,2))/Math.pow(10,2);
+            this.paquetesTotales.descuento = totalDescuentoPaquetes;
+            this.paquetesTotales.subCDescuento = totalPaquetes - totalDescuentoPaquetes;
+            this.paquetesTotales.subCDescuento = Math.round(this.paquetesTotales.subCDescuento*Math.pow(10,2))/Math.pow(10,2);
+            this.paquetesTotales.iva = totalPCI * .16;
+            this.paquetesTotales.total = totalPCI - totalDescuentoPaquetes
+            this.paquetesTotales.total = Math.round(this.paquetesTotales.total*Math.pow(10,0))/Math.pow(10,0);
+
+
 
           })
           .catch((e) => {
             console.error(e)
           })
+          
         },
         filters:{
         fecha: function(value){
           return moment(value).format("DD/MM/YYYY")
         },
         moneda: function(value){
-        return parseInt(value).toLocaleString()
-
+        return value.toLocaleString()
         }
           
         }, 

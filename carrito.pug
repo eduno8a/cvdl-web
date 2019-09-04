@@ -28,7 +28,7 @@ html(lang="en")
      
       //- ----------------- Stock       
       .wrap_product.animated.col.m8() 
-        h1.title_head(style="color:white;") Paquetes
+        h1.title_head(style="color:white;") NUPEC
         br
         //- ----------------- Stock Paquetes
         .row.wrap_paquete#accordionExample()
@@ -79,7 +79,7 @@ html(lang="en")
                      
         br
         //- ----------------- Stock Producto Linea selecta
-        h1.title_head(style="color:white;") Linea selecta  
+        h1.title_head(style="color:white;") Línea selecta  
         .row.table_producto(v-for="(categoria, index) in categorias")
           
           .col.m11.offset-m1
@@ -127,7 +127,7 @@ html(lang="en")
         //- //////////////////// Resumen Paquetes
         .row(v-if="carritoPaquetes.length > 0")
           .col.s12
-            h1.titleResumne Paquetes 
+            h1.titleResumne NUPEC 
           .col.m12(v-bind:class="" v-if="totalPaquete > 0")
             select.browser-default(v-model="distribuidor_su")
               option(selected='' value='') Proveedor 
