@@ -40,7 +40,7 @@ html(lang="en")
     script.
       var urlApi = "http://nupec.com:3000";
       var infoUser = JSON.parse(localStorage.getItem('usuario'));
-      
+      console.log(infoUser)
       Vue.component('data-table', {
         template: '<table></table>',
         props: ['users'],

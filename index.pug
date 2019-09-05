@@ -136,7 +136,7 @@ html(lang="en")
                 if(response.data){
                   M.toast({html: 'Bienvenido', classes: 'backgroundGreen'})
                   localStorage.setItem("usuario", JSON.stringify(response.data));
-                  //- var infoUser = JSON.parse(localStorage.getItem('usuario'));
+                  var infoUser = JSON.parse(localStorage.getItem('usuario'));
                   //- console.log(infoUser)
                   window.location.href = urlHome;
                 } else{
