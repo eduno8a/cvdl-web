@@ -479,8 +479,8 @@ html(lang="en")
           .catch((e) => {
             console.error(e)
           })
-          let urlSu = urlApi+'/api/v1/distribuidor/order/?zone='+infoUser.municipio_id.name+'&estado='+infoUser.estado_id.name+'&linea=1';
-          let urlSe = urlApi+'/api/v1/distribuidor/order/?zone='+infoUser.municipio_id.name+'&estado='+infoUser.estado_id.name+'&linea=2';
+          let urlSu = urlApi+'/api/v1/distribuidor/order/?zone='+infoUser.municipio_id.name+'&estado='+infoUser.estado_id.id+'&linea=1';
+          let urlSe = urlApi+'/api/v1/distribuidor/order/?zone='+infoUser.municipio_id.name+'&estado='+infoUser.estado_id.id+'&linea=2';
               axios.get(urlSu).then((distribuidor) => {
                 this.distribuidores_su = distribuidor.data;
                 console.log(this.distribuidor_su)

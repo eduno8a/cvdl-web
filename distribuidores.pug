@@ -1,0 +1,137 @@
+doctype html
+html(lang="en")
+  head
+    title Nupec
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+    link(rel="stylesheet" type="text/css" href="css/materialize.min.css")
+    link(rel="stylesheet" type="text/css" href="css/generales.css")
+    link(rel="stylesheet" type="text/css" href="css/style.css") 
+    
+  body
+    
+    .row(style="margin:0px;")
+      .row.container_logo(style="background: white;")
+        .col.m12.center
+          img(src="images/NUPEC.png" style="width:200px;")
+          br
+        .col.m6.offset-m1
+          h1.title_head.left Ordenes
+
+    .row(style="padding-top:50px;")
+      .col.s10.offset-s1(style="text-align:right;")
+        a.btn(href="carrito.html") Agregar Pedido
+      .col.s10.offset-s1#tableOrdenes(style="max-width:100%;")
+        
+        data-table(:users='filteredUsers' style="width:100%;")
+        #modalPerfil.modal
+          .modal-content
+            h4 Modal Header
+            p A bunch of text
+          .modal-footer
+            a.modal-close.waves-effect.waves-green.btn-flat(href='#!') Agree
+
+    script(src="vendor/jquery/jquery-3.2.1.min.js")
+    script(src="js/materialize.min.js")
+    script(src="vendor/daterangepicker/moment.min.js")
+    script(src="js/vue.js")
+    script(src="js/axios.min.js")
+    script(src="js/jquery.dataTables.min.js")
+    script.
+      var urlApi = "http://192.168.1.112:3000";
+      var infoUser = JSON.parse(localStorage.getItem('usuario'));
+      
+      Vue.component('data-table', {
+        template: '<table></table>',
+        props: ['users'],
+        data() {
+          return {
+            headers: [
+              { title: 'Codigo' },
+              { title: 'Nombre' },
+              { title: 'Estado' },
+              { title: 'Distribuidor NUPEC' },
+              { title: 'Distribuidor LINEA SELECTA' },
+              { title: 'Fecha' }
+            ],
+            rows: [] ,
+            dtHandle: null
+          }
+        },
+        watch: {
+          users(val, oldVal) {
+            let vm = this;
+            vm.rows = [];
+            val.forEach(function (item) {
+              let row = [];
+              row.push('<a href="pedido.html?idPedido=' +item.id+ '" >' + item.codigo + '</a>');
+              row.push(item.usuario_id.nombre);
+              row.push(item.usuario_id.estado_id.name);
+              if(item.distribuidor_su){
+                row.push(item.distribuidor_su.contacto);
+              }else{
+                row.push("-")
+              }
+              if(item.distribuidor_se){
+                row.push(item.distribuidor_se.contacto);
+              }else{
+                row.push("-")
+              }
+              row.push(moment(item.createdAt).format("DD/MM/YYYY"));
+              vm.rows.push(row);
+            });
+            vm.dtHandle.clear();
+            vm.dtHandle.rows.add(vm.rows);
+            vm.dtHandle.draw();
+          }
+        },
+        mounted() {
+          let vm = this;
+          vm.dtHandle = $(this.$el).DataTable({
+            columns: vm.headers,
+            data: vm.rows,
+            searching: true,
+            scrollX: true,
+            paging: false,
+            info: false
+          });
+        }  
+      });
+
+      new Vue({
+        el: '#tableOrdenes',
+        data: {
+          users: [],
+          search: ''
+        },
+        computed: {
+          filteredUsers: function () {
+            return this.users;
+            let search = self.search.toLowerCase()
+            return self.users.filter(function (user) {
+              return 	user.username.toLowerCase().indexOf(search) !== -1 ||
+                user.name.toLowerCase().indexOf(search) !== -1 ||
+                user.phone.indexOf(search) !== -1 ||
+                user.email.toLowerCase().indexOf(search) !== -1 ||
+                user.website.toLowerCase().indexOf(search) !== -1
+            })
+          }
+        },
+        mounted() {
+          let vm = this;
+          axios.get(urlApi+'/api/v1/orden/usuario/'+infoUser.id)
+          .then(function (response) {
+            vm.users = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        },
+        methods: {
+          openModal: function(idOrden){
+            instance.open('#modalPerfil');
+          }
+        }
+      });
+
+
