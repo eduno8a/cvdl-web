@@ -189,7 +189,7 @@
         watch: {
           codigoPostal: function(){
       
-            if(this.codigoPostal.length == 5){
+            if(this.codigoPostal.length >= 4){
               axios.get(urlApi+'/api/v1/catalogo/postal/'+this.codigoPostal).then((response) => {
                 if(response.data.estado.id == null){
                   alert("codigo postal no valido")
