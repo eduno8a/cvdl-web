@@ -61,7 +61,7 @@ html(lang="en")
             // You should _probably_ check that this is changed data... but we'll skip that for this example.
             val.forEach(function (item) {
               let row = [];
-              row.push('<a href="pedido.html?idPedido=' +item.id+ '" >' + item.codigo + '</a>');
+              row.push('<a href="pedido.html?idPedido=' +item.id+ '" >' + item.usuario_id.codigo + '</a>');
               row.push(item.usuario_id.nombre);
               row.push(item.usuario_id.estado_id.name);
               if(item.distribuidor_su){

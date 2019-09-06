@@ -106,31 +106,21 @@ html(lang="en")
           .row.pedidoHead(style="margin:20px auto;")
             .col.m12
               h2 
-                strong Nombre : 
-                | {{usuario.nombre}} {{usuario.apellido_paterno}}
+                strong Nombre : {{usuario.nombre}} {{usuario.apellido_paterno}}
               h2 
-                strong Direccion :  
-                | {{usuario.calle}} 
-                strong Numero : 
-                | {{usuario.numero_int}} 
-                strong Ext. : 
-                | {{usuario.numero_ext}} 
-                strong Colonia : 
-                | {{usuario.colonia}}
+                strong Direccion :  {{usuario.calle}} 
+                strong Numero : {{usuario.numero_int}} 
+                strong Ext. : {{usuario.numero_ext}} 
+                strong Colonia : {{usuario.colonia}}
               h2  
-                strong CP :
-                | {{usuario.cp}}
+                strong CP : {{usuario.cp}}
               h2
-                strong Estado : 
-                | {{estado.name}} 
-                strong Municipio : 
-                | {{municipio.name}}  
+                strong Estado : {{estado.name}} 
+                strong Municipio : {{municipio.name}}  
               h2
-                strong Teléfono : 
-                | {{usuario.telefono}} 
+                strong Teléfono : {{usuario.telefono}} 
             
-                strong Email : 
-                | {{usuario.email}}
+                strong Email : {{usuario.email}}
           .row.tablePedido.tablaOrden
             table
               tr
@@ -274,6 +264,7 @@ html(lang="en")
             var total = this.productos.reduce(function (previous, current) {
                 return previous + current.importe;
             }, 0);
+            total = Math.round(total*Math.pow(10,2))/Math.pow(10,2)
             this.productosTotales.subtotal = total;
             this.productosTotales.descuento = 10;
             this.productosTotales.subCDescuento = .9 * total;

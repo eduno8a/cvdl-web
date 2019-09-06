@@ -106,11 +106,11 @@
           </div>
           <div class="row pedidoHead" style="margin:20px auto;">
             <div class="col m12">
-              <h2> <strong>Nombre : </strong>{{usuario.nombre}} {{usuario.apellido_paterno}}</h2>
-              <h2> <strong>Direccion :  </strong>{{usuario.calle}} <strong>Numero : </strong>{{usuario.numero_int}} <strong>Ext. : </strong>{{usuario.numero_ext}} <strong>Colonia : </strong>{{usuario.colonia}}</h2>
-              <h2> <strong>CP :</strong>{{usuario.cp}}</h2>
-              <h2><strong>Estado : </strong>{{estado.name}} <strong>Municipio : </strong>{{municipio.name}}  </h2>
-              <h2><strong>Teléfono : </strong>{{usuario.telefono}} <strong>Email : </strong>{{usuario.email}}</h2>
+              <h2> <strong>Nombre : {{usuario.nombre}} {{usuario.apellido_paterno}}</strong></h2>
+              <h2> <strong>Direccion :  {{usuario.calle}} </strong><strong>Numero : {{usuario.numero_int}} </strong><strong>Ext. : {{usuario.numero_ext}} </strong><strong>Colonia : {{usuario.colonia}}</strong></h2>
+              <h2> <strong>CP : {{usuario.cp}}</strong></h2>
+              <h2><strong>Estado : {{estado.name}} </strong><strong>Municipio : {{municipio.name}}  </strong></h2>
+              <h2><strong>Teléfono : {{usuario.telefono}} </strong><strong>Email : {{usuario.email}}</strong></h2>
             </div>
           </div>
           <div class="row tablePedido tablaOrden">
@@ -265,6 +265,7 @@
             var total = this.productos.reduce(function (previous, current) {
                 return previous + current.importe;
             }, 0);
+            total = Math.round(total*Math.pow(10,2))/Math.pow(10,2)
             this.productosTotales.subtotal = total;
             this.productosTotales.descuento = 10;
             this.productosTotales.subCDescuento = .9 * total;

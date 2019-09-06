@@ -117,7 +117,7 @@ html(lang="en")
                   input(type="number" v-model="inputProducto[index].input" )
                   button(v-on:click.prevent="incrementInput(index, 'producto')")
                     i(class="fa fa-plus-circle")
-                  button(v-if="inputProducto[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.nombre, index, item.totalDescuento, 'producto')")
+                  button(v-if="inputProducto[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.marca+' '+item.nombre+' '+item.kilos+'Kg', index, item.totalDescuento, 'producto')")
                     i(class="fa fa-check-circle" style="padding-left: 20px;")
 
       //- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
