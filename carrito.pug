@@ -49,7 +49,7 @@ html(lang="en")
                     button(v-on:click.prevent="incrementInput(index, 'paquete')")
                       i(class="fa fa-plus-circle")
                   p
-                    button.btn.btnAddCar(v-if="inputPaquete[index].input > 0" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')") Agregar al pedido
+                    button.btn.btnAddCar(v-if="inputPaquete[index].input > 0 && inputPaquete[index].input < 11" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')") Agregar al pedido
                   
                   .col.m12
                     table
@@ -149,10 +149,10 @@ html(lang="en")
               h2 ${{(item.count * item.price).toLocaleString() }}
             .col.m3
               p.wrap_count_resumen
-                button(v-on:click.prevent="decrementInput(index, 'paqueteCarrito')")
-                  i(class="fa fa-minus-circle")
-                button(v-on:click.prevent="item.count++,total()")
-                  i(class="fa fa-plus-circle")
+                //- button(v-on:click.prevent="decrementInput(index, 'paqueteCarrito')")
+                //-   i(class="fa fa-minus-circle")
+                //- button(v-on:click.prevent="item.count++,total()")
+                //-   i(class="fa fa-plus-circle")
                 button(v-on:click.prevent="removeCarrito(index, 'paquete')")
                   i(class="fa fa-times-circle")
           .row.offset-m6.col.m3

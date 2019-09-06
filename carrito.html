@@ -44,7 +44,7 @@
                   <button v-on:click.prevent="incrementInput(index, 'paquete')"><i class="fa fa-plus-circle"></i></button>
                 </p>
                 <p>
-                  <button class="btn btnAddCar" v-if="inputPaquete[index].input &gt; 0" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')">Agregar al pedido</button>
+                  <button class="btn btnAddCar" v-if="inputPaquete[index].input &gt; 0 &amp;&amp; inputPaquete[index].input &lt; 11" v-on:click.prevent="addCarritoP(item.id, item.name, index, item.precioDescuento, 'paquete')">Agregar al pedido</button>
                 </p>
                 <div class="col m12">
                   <table>
@@ -171,8 +171,6 @@
             </div>
             <div class="col m3">
               <p class="wrap_count_resumen">
-                <button v-on:click.prevent="decrementInput(index, 'paqueteCarrito')"><i class="fa fa-minus-circle"></i></button>
-                <button v-on:click.prevent="item.count++,total()"><i class="fa fa-plus-circle"></i></button>
                 <button v-on:click.prevent="removeCarrito(index, 'paquete')"><i class="fa fa-times-circle"></i></button>
               </p>
             </div>
